@@ -4,8 +4,8 @@ applications:
   services:
   - cognitive-cloudantNoSQLDB
   - cognitive-iotf-service
-  - cognitive-speech-to-text
-  - cognitive-text-to-speech
+  - cognitive-speech_to_text
+  - cognitive-text_to_speech
   - cognitive-conversation
   env:
     NODE_RED_STORAGE_NAME: cognitive-cloudantNoSQLDB
@@ -16,11 +16,11 @@ declared-services:
   cognitive-iotf-service:
     label: iotf-service
     plan: iotf-service-free
-  cognitive-speech-to-text:
-    label: speech-to-text
+  cognitive-speech_to_text:
+    label: speech_to_text
     plan: standard
-  cognitive-text-to-speech:
-    label: text-to-speech
+  cognitive-text_to_speech:
+    label: text_to_speech
     plan: standard
   cognitive-conversation:
     label: conversation
