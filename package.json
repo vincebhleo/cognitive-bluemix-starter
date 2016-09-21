@@ -12,7 +12,6 @@
 	"node-rest-client": "*",
 	"request": "~2.36.0",
 	"ws": "*",
-	"",
         "when": "~3.x",
         "nano": "~5.11.0",
         "cfenv":"~1.0.0",
