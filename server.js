@@ -22,6 +22,8 @@ var http    = require('http'),
     path    = require("path"),     
     express = require("express"),
     RED     = require("node-red")
+    iotp = require('./app/iot/iotp');
+    cloudant = require('./app/cloudant/cloudant')
 ;
 
 // Create an Express app
@@ -104,6 +106,9 @@ if (!couchService) {
     throw new Error("No cloudant service found");
 }    
 settings.couchUrl = couchService.url;
+
+//start listen iotp
+iotp.initIoTp();
 
 // Initialise the runtime with a server and settings
 RED.init( httpServer, settings );
