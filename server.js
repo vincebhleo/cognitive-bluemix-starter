@@ -21,8 +21,8 @@
 var http    = require('http'),
     path    = require("path"),     
     express = require("express"),
-    RED     = require("node-red")
-    iotp = require('./app/iot/iotp');
+    RED     = require("node-red"),
+    iotp = require('./app/iot/iotp'),
     cloudant = require('./app/cloudant/cloudant')
 ;
 
