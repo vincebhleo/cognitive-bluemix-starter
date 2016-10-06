@@ -31,6 +31,7 @@
 	"node-red-node-dropbox":"0.x",
 	"node-red-node-box":"0.x",
         "node-rest-client": "^1.8.0",
+        "vcap_services": "^0.1.7",
         "when": "~3.x",
         "ws": "*"
     },
