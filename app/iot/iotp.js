@@ -4,7 +4,6 @@ var extend = require('util')._extend;
 var vcapServices = require('vcap_services');
 var cloudant = require("../cloudant/cloudant");
 var uuid = require('node-uuid');
-var EventSimulator = require('./eventSimulator');
 var _uuid=uuid.v4();
 //var dataPublisher = null;
 var appClientConfig = extend({
