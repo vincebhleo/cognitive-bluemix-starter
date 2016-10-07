@@ -5,13 +5,19 @@ var vcapServices = require('vcap_services');
 var cloudant = require("../cloudant/cloudant");
 var uuid = require('node-uuid');
 var _uuid=uuid.v4();
+
 //var dataPublisher = null;
-var appClientConfig = extend({
-    "org": process.env.iotp_org,
-    "id": _uuid,
-    "auth-key": process.env.iotp_auth_key,
-    "auth-token": process.env.iotp_auth_token
-}, vcapServices.getCredentials('iotf-service'));
+// var appClientConfig = extend({
+//     "org": process.env.iotp_org,
+//     "id": _uuid,
+//     "auth-key": process.env.iotp_auth_key,
+//     "auth-token": process.env.iotp_auth_token
+// }, vcapServices.getCredentials('iotf-service'));
+
+//getting credential from vcap_services
+var appClientConfig = vcapServices.getCredentials('iotf-service');
+
+
 //iotf-service
 function consumeMQTT(deviceId, command) {
     var deviceIdIndex = command.indexOf(' ');
