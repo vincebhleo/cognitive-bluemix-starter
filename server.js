@@ -18,11 +18,11 @@
 "use strict";  /* always for Node.JS, never global in the browser */
 
 // Set the modules
-var http    = require('http'),
-    path    = require("path"),     
-    express = require("express"),
-    RED     = require("node-red"),
-    iotp = require('./app/iot/iotp'),
+var http     = require('http'),
+    path     = require("path"),     
+    express  = require("express"),
+    RED      = require("node-red"),
+    iotp     = require('./app/iot/iotp'),
     cloudant = require('./app/cloudant/cloudant')
 ;
 
@@ -107,8 +107,8 @@ if (!couchService) {
 }    
 settings.couchUrl = couchService.url;
 
-//start listen iotp
-iotp.initIoTp();
+//Start listening to IOTP
+//iotp.initIoTp();
 
 // Initialise the runtime with a server and settings
 RED.init( httpServer, settings );
