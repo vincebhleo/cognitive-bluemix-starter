@@ -26,6 +26,8 @@ var http     = require('http'),
     cloudant = require('./app/cloudant/cloudant')
 ;
 
+var conversation = require('./routes/conversation');
+
 // Create an Express app
 var app = express();
 
@@ -45,6 +47,8 @@ app.use(require('morgan')('combined'));
 app.use(require('cookie-parser')());
 app.use(require('body-parser').urlencoded({ extended: true }));
 app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
+app.use('/api/speech-to-text/', require('./routes/stt-token.js'));
+app.use('/api/text-to-speech/', require('./routes/tts-token.js'));
 
 // Set up the client for sending data to Node-RED
 var Client = require('node-rest-client').Client;

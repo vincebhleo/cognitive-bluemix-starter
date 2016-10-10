@@ -24,3 +24,6 @@ declared-services:
   cognitive-conversation:
     label: conversation
     plan: free
+  cognitive-weatherinsights:
+    label: weatherinsights
+    plan: Free-v2
