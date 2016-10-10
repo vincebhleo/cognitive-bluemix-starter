@@ -22,7 +22,7 @@ var http     = require('http'),
     path     = require("path"),     
     express  = require("express"),
     RED      = require("node-red"),
-//  iotp     = require('./app/iot/iotp'),
+    iotp     = require('./app/iot/iotp'),
     cloudant = require('./app/cloudant/cloudant')
 ;
 
@@ -108,7 +108,7 @@ if (!couchService) {
 settings.couchUrl = couchService.url;
 
 //Start listening to IOTP
-//iotp.initIoTp();
+iotp.initIoTp();
 
 // Initialise the runtime with a server and settings
 RED.init( httpServer, settings );
