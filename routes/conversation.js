@@ -3,11 +3,10 @@ var express = require('express');
 var app = express();
 var router = express.Router();
 var watson = require( 'watson-developer-cloud' );
-var weather = require('../app/weather');
-var location = require('../app/location');
+var weather = require('../app/weather/weather');
+var location = require('../app/location/location');
 var vcapServices = require('vcap_services');
 var request = require('request');
-
 
 var context_var = {};
 
