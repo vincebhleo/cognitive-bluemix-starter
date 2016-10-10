@@ -6,6 +6,7 @@ applications:
   - cognitive-speech_to_text
   - cognitive-text_to_speech
   - cognitive-conversation
+  - cognitive-weatherinsights
   env:
     NODE_RED_STORAGE_NAME: cognitive-cloudantNoSQLDB
 declared-services:
