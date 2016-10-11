@@ -26,9 +26,7 @@ var http     = require('http'),
     cloudant = require('./app/cloudant/cloudant')
 ;
 
-var watson = require('watson-developer-cloud');
-var vcapServices = require('vcap_services');
-// var conversation = require('./routes/conversation');
+var conversation = require('./routes/conversation');
 
 // Create an Express app
 var app = express();
