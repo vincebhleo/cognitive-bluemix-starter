@@ -6,15 +6,14 @@ $(document).ready(function() {
 	$loader = $('.loader');
 	$micButton = $('.chat-window--microphone-button');
 
-	//STT TTS token
 	var getSTTToken = $.ajax('/api/speech-to-text/token');
  	var getTTSToken = $.ajax('/api/text-to-speech/token');
 
 	var deactivateMicButton = $micButton.removeClass.bind($micButton, 'active');
 
-	//Calling STT service
   function record() {
     getSTTToken.then(function(token) {
+			//$micButton.css('background-color','red');
 			$micButton.addClass('active');
       WatsonSpeech.SpeechToText.recognizeMicrophone({
         token: token,
@@ -31,8 +30,11 @@ $(document).ready(function() {
   }
 
 	$micButton.click(record);
+
 	$loader.hide();
-	$('#messages').append($('<li>').text("Hello I am Watson, How may I help?"));
+//	var person = prompt("Please enter your name", "Jack Simons");
+	 $('#messages').append($('<li>').text("Hello I am Watson, How may I help?"));
+//	TTS('Hello I am Watson, How may I help?');
 
 	$chatInput.focus();
 	$chatInput.keyup(function(event){
@@ -49,7 +51,6 @@ $(document).ready(function() {
 			$('#messages').append($('<li>').text(msg));
 			$('#chat-input').val('');
 
-			//AJAX call to /conversation node api to get the response
 			$.get({
 				url : '/conversation',
 				data : {
@@ -58,22 +59,21 @@ $(document).ready(function() {
 				success : function(data) {
 					console.log(data);
 					var reply  = data;
+					//reply.replace(","," ");
 					console.log(reply);
 
 					$('#messages').append($('<li>').text(reply));
 					$loader.hide();
 					$(".chat").animate({ scrollTop: $(document).height() }, "slow");
 
-					//TTS service
 					getTTSToken.then(function(token) {
 					WatsonSpeech.TextToSpeech.synthesize({
 					 text: data,
 					 token: token
 				 });
+
 			 });
-				}
-			});
-
-		}
-
+			}
+		});
+	}
 });
