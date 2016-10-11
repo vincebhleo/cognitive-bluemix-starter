@@ -1,7 +1,7 @@
 'use strict';
 
-var express      = require('express'),
-  router          = express.Router(),
+var express    = require('express'),
+  router       = express.Router(),
   vcapServices = require('vcap_services'),
   extend       = require('util')._extend,
   watson       = require('watson-developer-cloud');
@@ -12,8 +12,8 @@ var express      = require('express'),
 var sttConfig = extend({
   version: 'v1',
   url: 'https://stream.watsonplatform.net/speech-to-text/api',
-  username: process.env.stt_username ||'USERNAME',
-  password: process.env.stt_password ||'PASSWORD'
+  username: process.env.stt_username,
+  password: process.env.stt_password
 }, vcapServices.getCredentials('speech_to_text'));
 
 var sttAuthService = watson.authorization(sttConfig);

@@ -36,11 +36,11 @@ router.get( '/', function(req, res, next) {
   var payload = {
     workspace_id: workspace,
     context: {},
-    input: {text}
+    input: {}
   };
   if ( req.body ) {
 	   console.log('inside req.body');
-	 	payload.input = {text};
+	 	payload.input = {};
 		console.log('Inside the req.body.input paylod is::  '+(JSON.stringify(payload.input)));
     payload.context = context_var;
 	  console.log('Context conver id = '+context_var.conversation_id);
