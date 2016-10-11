@@ -35,6 +35,7 @@
         "node-uuid": "^1.4.7",
         "q": "^1.4.1",
         "vcap_services": "^0.1.7",
+        "watson-developer-cloud": "^1.12.2",
         "when": "~3.x",
         "ws": "*"
     },

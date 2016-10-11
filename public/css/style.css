@@ -1,200 +1,157 @@
-body {
-    color: #555;
+.chat-box--item_HIDDEN {
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-40px); }
+
+.header{
+	color:#0d3551;
+	font-size:2em;
+	text-align:center;
+	height:5%;
+	padding-bottom:5px;
+
 }
-a {
-    text-decoration: none;
+
+html, body {
+   height: 100%;
+   margin: 0;
+   background-size: 350px;
+   background-attachment: fixed;
 }
-.title, .row2, .nodes {
-    background: white;
+
+.main-container{
+	height:100%;
+	margin:1;
+	border:1;
+
+}
+
+.expander {
+   float:right;
+   z-index:2;
+   position: relative;
+   margin: 0 auto;
+   background: #ffffff;
+   width: 700px;
+   height: 100%;
+   padding-bottom: 2px;
+   -webkit-transition: width 0.3s ease;
+   transition: width 0.3s ease;
+   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+#messages {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+#messages li {
+	padding: 5px 10px;
+	background: #BADCF3;
+	text-align: left;
+	border-radius: 15px;
+}
+
+#messages li:nth-child(odd) {
+	background: #f9f6ef;
+	text-align: right;
+	border-radius: 15px;
 }
 
 
-.blurb a {
-    text-decoration: underline;
-    color: #555;
+.wrapper {
+   z-index: 2;
+   position: absolute;
+   background: #ffffff;
+   border-left: solid 1px #e6e6e6;
+   border-right: solid 1px #e6e6e6;
+   width: 700px;
+   float: left;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+
 }
-a.button {
-    text-decoration: none;
-    display: inline-block;
-    padding: 30px 40px;
-    border-radius: 5px;
-    background: #aa6767;
-    color: #eee;
-}
-a.button:hover {
-    background: #7F4545;
-}
-.row3, .row4, .row5 {
-    background: #fff;
+.receipt_wrapper {
+   z-index:1;
+   position: relative;
+   margin: 0 auto;
+   width: 700px;
+   height: 100%;
+   padding-bottom: 2px;
+   -webkit-transition: width 0.3s ease;
+   transition: width 0.3s ease;
 }
 
-.row9 {
-    background: #676767;
-}
-.footer {
-    background: #333;
+#content {
+   font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+   font-size: 14px;
+   font-weight: normal;
+   -webkit-font-smoothing: antialiased;
+   text-rendering: optimizeLegibility;
+   border-bottom: solid 1px #e6e6e6;
+   border-top: solid 1px #e6e6e6;
+   overflow-y: scroll;
+   padding: 0;
+   margin: 0;
+	height: 89%;
+	width:100%;
+	 position: absolute;
+	 background-color:#ffffff;
+
 }
 
-.footer .grid {
-    color: #eee;
-    padding: 20px 0;
-    font-family: Arial;
-}
-.footer a {
-    color: #eee;
+
+.chat-box--item_YOU{
+	text-align:right;
+	width:100%;
+
 }
 
-.footer .content {
-    height: auto;
-    min-height: 0;
-    margin: 20px auto;
+.chat-box--item_WATSON{
+	text-align:left;
+	width:100%;
+
+}
+.chat-box--message-text{
+display: inline-block;
+border-radius: 1.3em;
+padding: 10px;
+margin: 5px;
 }
 
-.footer .headline {
-    margin: 80px auto 20px auto;
+.WATSON_chat{
+	background-color:#f9f6ef;
 }
-.footer {
-    text-align: center;
-}
-
-.ets-link {
-    margin: 10px 0px;
-    
-}
-.ets-globe {
-    width: 60px;
-    vertical-align: middle;
+.YOU_chat{
+	background-color:#BADCF3;
 }
 
-.content {
-    margin: 80px 0;
+h3{
+	right:5px;
+	color:#0d3551;
 }
 
-.blurb {
-    font-family: Arial;
-    font-size: 16px;
-    line-height: 1.6em;
-}
-.blurb p {
-    margin-top: 0;
-}
-.blurb h3, .nodes h3 {
-    font-family: "Roboto Slab";
-    font-size: 24px;
-    font-weight: normal;
-    margin-top: 0;
-    margin-bottom: 0.5em;
-}
-.blurb h4 {
-    font-family: "Roboto Slab";
-    font-size: 18px;
-    font-weight: normal;
-    margin-top: 0.8em;
-    margin-bottom: 0.5em;
-}
-.feature {
-    max-width: 485px;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-}
 
-.row3 .feature, .row4 .feature, .row5 .feature {
-    border: none;
+#chat-input{
+	position: absolute;
+	height: 4%;
+	bottom:0;
+	padding:5px;
+	width: 650px;
 }
-.feature img {
-    max-width: 445px;
-    width: 100%;
-}
-.title .content {
-    margin: 80px 0 20px 0;
-    height: 280px;
-    text-align: center;
-}
-.title h1 {
-    font-size: 36px;
-    font-family: "Roboto Slab";
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #676767;
-}    
-.title h2 {
-    margin-top: 0px;
-    font-size: 20px;
-    font-family: "Roboto Slab";
-    font-weight: normal;
-    color: #555;
-}
-.title img {
-    margin: auto;
-    max-width: 769px;
-    width: 100%;
-}
-
-.nodes .content {
-    text-align: center;
-    height: auto;
-    min-height: 0;
-    margin: 40px 0 40px 0;
-}
-.nodes .grid {
-    padding-top: 40px;
-    padding-bottom: 40px;
-}
-
-.nodes h3 {
-    text-align: center;
-}
-.nodes h4 {
-    font-family: "Roboto Slab";
-    text-align: center;
-    font-weight: normal;
-    margin-top: 3px;
-    height: 50px;
-}
-
-.header {
-    font-family: "Roboto Slab";
-    font-size: 20px;
-    line-height: 50px;
-    color: #999;
-    padding: 0px 10px;
-    height: 50px;
-    background: #333;
-}
-.header-content {
-    width: 100%;
-	max-width: 1155px;
-	min-width: 755px;
-	margin: 0 auto;
-}
-.header-content .logo {
-    vertical-align: middle;
-    height: 20px;
-}
-.header-content a {
-    color: #999;
-}
-.header-content ul {
-    float: right;
-    list-style-type: none;
-    margin: -0;
-    padding: 0;
-    background: #333;
-}
-.header-content li {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-}
-.header-content li a {
-    display: block;
-    padding: 0 15px 0 15px;
-}
-.header-content li.current {
-    background: url(images/tab.png) 50% bottom no-repeat;
-}
-.header-content li.current a {
-    color: #fff;
-}
-
+.chat-window--microphone-button {
+	height: 5%;
+	bottom:0;
+    width: 35px;
+    cursor: pointer;
+    background-color: #00B2EF;
+    position: absolute; /* this is a hack, but it gets the job done */
+    right: 0;
+  }
+  .chat-window--microphone-button.active {
+    background-color: #d74108;
+  }
