@@ -22,8 +22,8 @@ var http     = require('http'),
     path     = require("path"),     
     express  = require("express"),
     RED      = require("node-red"),
-    iotp     = require('./app/iot/iotp'),
-    cloudant = require('./app/cloudant/cloudant')
+	iotp     = require('./app/iot/iotp')
+    //cloudant = require('./app/cloudant/cloudant')
 ;
 
 // Create an Express app
@@ -31,14 +31,14 @@ var app = express();
 
 var cfenv = require("cfenv");
 var appEnv = cfenv.getAppEnv();
-var VCAP_APPLICATION = JSON.parse(process.env.VCAP_APPLICATION);
+//var VCAP_APPLICATION = JSON.parse(process.env.VCAP_APPLICATION);
 
 // Add a simple route for static content served from './public'
 app.use( "/", express.static("public") );
 
 // Create a server
 var httpServer = http.createServer(app);
-var port = process.env.VCAP_APP_PORT || 8080;
+var port = process.env.VCAP_APP_PORT || 3000;
 
 // Use application-level middleware for common functionality
 app.use(require('morgan')('combined'));
@@ -88,27 +88,27 @@ var settings = {
 };
 
 // Check to see if Cloudant service exists
-settings.couchAppname = VCAP_APPLICATION['application_name'];
+//settings.couchAppname = VCAP_APPLICATION['application_name'];
 
-if (process.env.VCAP_SERVICES) {
-// Running on Bluemix. Parse the port and host that we've been assigned.
-    var env = JSON.parse(process.env.VCAP_SERVICES);
-    console.log('VCAP_SERVICES: %s', process.env.VCAP_SERVICES);
-    // Also parse Cloudant settings.
-    var couchService = env['cloudantNoSQLDB'][0]['credentials'];    
-}
+// if (process.env.VCAP_SERVICES) {
+// // Running on Bluemix. Parse the port and host that we've been assigned.
+//     var env = JSON.parse(process.env.VCAP_SERVICES);
+//     console.log('VCAP_SERVICES: %s', process.env.VCAP_SERVICES);
+//     // Also parse Cloudant settings.
+//     var couchService = env['cloudantNoSQLDB'][0]['credentials'];    
+// }
 
-if (!couchService) {
-    console.log("Failed to find Cloudant service");
-    if (process.env.NODE_RED_STORAGE_NAME) {
-        console.log(" - using NODE_RED_STORAGE_NAME environment variable: "+process.env.NODE_RED_STORAGE_NAME);
-    }
-    throw new Error("No cloudant service found");
-}    
-settings.couchUrl = couchService.url;
+// if (!couchService) {
+//     console.log("Failed to find Cloudant service");
+//     if (process.env.NODE_RED_STORAGE_NAME) {
+//         console.log(" - using NODE_RED_STORAGE_NAME environment variable: "+process.env.NODE_RED_STORAGE_NAME);
+//     }
+//     throw new Error("No cloudant service found");
+// }    
+// settings.couchUrl = couchService.url;
 
 //Start listening to IOTP
-iotp.initIoTp();
+//iotp.initIoTp();
 
 // Initialise the runtime with a server and settings
 RED.init( httpServer, settings );
