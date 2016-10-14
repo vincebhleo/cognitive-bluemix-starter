@@ -108,7 +108,7 @@ var settings = {
 // settings.couchUrl = couchService.url;
 
 //Start listening to IOTP
-//iotp.initIoTp();
+iotp.initIoTp();
 
 // Initialise the runtime with a server and settings
 RED.init( httpServer, settings );
