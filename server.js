@@ -17,6 +17,8 @@
 /*eslint-env node */
 "use strict";  /* always for Node.JS, never global in the browser */
 
+require('dotenv').config(); // will read configuration from the .env file
+
 // Set the modules
 var http     = require('http'),
     path     = require("path"),     
