@@ -1,5 +1,7 @@
 $(document).ready(function() {
-
+  
+  var self = this;
+  var stream = null;
 	$('#messages').append($('<li>').text(""));
 
 	$chatInput = $('#chat-input');
@@ -12,25 +14,55 @@ $(document).ready(function() {
 	var deactivateMicButton = $micButton.removeClass.bind($micButton, 'active');
 
   function record() {
+  
     getSTTToken.then(function(token) {
 			//$micButton.css('background-color','red');
 			$micButton.addClass('active');
-      WatsonSpeech.SpeechToText.recognizeMicrophone({
+      stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
         token: token,
         continuous: false,
         outputElement: $chatInput[0],
+        content_type: 'audio/wav',
         keepMicrophone: navigator.userAgent.indexOf('Firefox') > 0
-      }).promise().then(function() {
+      });
+      
+      stream.promise().then(function() {
+        console.log('opened micrphone');
 				$micButton.addClass('chat-window--microphone-button');
         converse($chatInput.val());
       })
-      .then(deactivateMicButton)
-      .catch(deactivateMicButton);
+      .then(function(error){console.log('error micrphone');deactivateMicButton;})
+      .catch(function(error){console.log('catch micrphone');deactivateMicButton;})
     });
+    
+    /*self.stream.on('error', function(err) {
+            console.log("we are in error function: i.e. error is produced when calling STT");
+            console.log(err);
+        });*/
   }
 
-	$micButton.click(record);
+  function stopRecording() {  
+  $micButton.addClass('normal');
+    if (stream) {
+                try {
+                    //console.log("we are in try block ");
+                    setTimeout(stream.stop, 500);
+                } catch (err) {
+                    console.log("error produced while stoping a stream");
+                    console.log(err);
+                }
+            }
+  }
+  //$micButton.click(record);
 
+  $micButton.mousedown(function() {        
+    record();      
+  });
+    
+  $micButton.mouseup(function() {        
+    stopRecording();
+  });
+    
 	$loader.hide();
 //	var person = prompt("Please enter your name", "Jack Simons");
 	 $('#messages').append($('<li>').text("Hello I am Watson, How may I help?"));

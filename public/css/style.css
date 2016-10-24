@@ -152,6 +152,11 @@ h3{
     position: absolute; /* this is a hack, but it gets the job done */
     right: 0;
   }
+
   .chat-window--microphone-button.active {
     background-color: #d74108;
+  }
+
+  .chat-window--microphone-button.normal {
+    background-color: #00B2EF;
   }
