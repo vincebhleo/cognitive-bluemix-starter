@@ -1,5 +1,6 @@
 $(document).ready(function() {
   
+  //var isConnecting = false;
   var self = this;
   var stream = null;
 	$('#messages').append($('<li>').text(""));
@@ -13,12 +14,10 @@ $(document).ready(function() {
 
 	var deactivateMicButton = $micButton.removeClass.bind($micButton, 'active');
 
-  function record() {
-  
+  function record() {    
     getSTTToken.then(function(token) {
-			//$micButton.css('background-color','red');
 			$micButton.addClass('active');
-      stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
+       stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
         token: token,
         continuous: false,
         outputElement: $chatInput[0],
@@ -27,39 +26,43 @@ $(document).ready(function() {
       });
       
       stream.promise().then(function() {
-        console.log('opened micrphone');
-				$micButton.addClass('chat-window--microphone-button');
+        $micButton.addClass('chat-window--microphone-button');
+        console.log('Microphone opened');				
+        $micButton.addClass('normal');
         converse($chatInput.val());
       })
-      .then(function(error){console.log('error micrphone');deactivateMicButton;})
-      .catch(function(error){console.log('catch micrphone');deactivateMicButton;})
-    });
+      .then(function(error){
+        $micButton.addClass('normal');
+        console.log('Microphone closed');        
+        deactivateMicButton;
+      })
+      .catch(function(error){
+        $micButton.addClass('normal');
+        console.log('catch micrphone');
+        deactivateMicButton;
+      })
+    });    
     
-    /*self.stream.on('error', function(err) {
-            console.log("we are in error function: i.e. error is produced when calling STT");
-            console.log(err);
-        });*/
   }
 
-  function stopRecording() {  
-  $micButton.addClass('normal');
+  function stopRecording() {      
+    $micButton.addClass('normal');
     if (stream) {
-                try {
-                    //console.log("we are in try block ");
-                    setTimeout(stream.stop, 500);
-                } catch (err) {
-                    console.log("error produced while stoping a stream");
-                    console.log(err);
-                }
-            }
+      try {
+      stream.stop;
+        //setTimeout(stream.stop, 500);
+      } catch (err) {       
+        console.log("Error in stopRecording() " + err);
+      }
+    }
   }
-  //$micButton.click(record);
 
-  $micButton.mousedown(function() {        
+  $micButton.mousedown(function() {  
+    $micButton.removeClass('normal').addClass('active');
     record();      
   });
     
-  $micButton.mouseup(function() {        
+  $micButton.mouseup(function() { 
     stopRecording();
   });
     

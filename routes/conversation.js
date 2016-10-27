@@ -7,11 +7,13 @@ var weather = require('../app/weather/weather');
 var location = require('../app/location/location');
 var vcapServices = require('vcap_services');
 var request = require('request');
+var vcapServices = require('vcap_services');
+var extend = require('util')._extend;
 
 var context_var = {};
 
 // Create the service wrapper
-var conversation = watson.conversation( {
+var conversationConfig = extend({
   url: 'https://gateway.watsonplatform.net/conversation/api',
   username: process.env.conversation_username || '<USERNAME>',
   password: process.env.convesation_password || '<PASSWORD>',
@@ -19,11 +21,12 @@ var conversation = watson.conversation( {
   version: 'v1'
 }, vcapServices.getCredentials('conversation'));
 
+var conversation = watson.conversation(conversationConfig);
+
 router.get( '/', function(req, res, next) {
-	var text = req.query.text;
-	console.log('input text is:: '+text);
+  var querytext = req.query.text;
   var workspace = process.env.conversation_workspaceid || '<WORKPSPACE_ID>';
-  if ( !workspace ) {
+  if ( !workspace === '<WORKSPACE_ID>' ) {
     return res.json( {
       'output': {
         'text': 'The app has not been configured with a <b>WORKSPACE_ID</b> environment variable. Please refer to the ' +
@@ -40,7 +43,7 @@ router.get( '/', function(req, res, next) {
   };
   if ( req.body ) {
     console.log('inside req.body');
-    payload.input = {};
+    payload.input = {text: querytext};
     console.log('Inside the req.body.input paylod is::  '+(JSON.stringify(payload.input)));
     payload.context = context_var;
     console.log('Context conver id = '+ context_var.conversation_id);
