@@ -3,7 +3,11 @@ Cognitive Watson Bluemix Starter Application
 
 ### Cognitive Watson in Bluemix
 
-This repository is an example Natural Language Interface for Things application that includes a Node.js and/or Node-RED backend services connected to various client (Android, iOS and Raspberry Pi).
+This repository is an example Natural Language Interface for Things application that includes a Node.js and/or Node-RED backend services connected to various client devices such as Android, iOS and Raspberry Pi.
+
+This can be deployed into Bluemix with only a couple clicks. Try it out for yourself right now by clicking:
+
+[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/vincebhleo/cognitive-bluemix-starter.git)
 
 This starter application includes the following Watson and Internet of Things services integrated:
 
@@ -27,11 +31,8 @@ Synthesizes natural-sounding speech from text.
 
 The service lets your apps communicate with and consume data collected by your connected devices, sensors, and gateways.
 
-This can be deployed into Bluemix with only a couple clicks. Try it out for yourself right now by clicking:
-
-[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/vincebhleo/cognitive-bluemix-starter.git)
-
 ### Before you begin
+
 Create a Bluemix account
 * [Sign up][sign_up] in Bluemix, or use an existing account. Your account must have available space for at least 1 app and 6 services.
 
@@ -64,5 +65,13 @@ It will automatically create an instance of the defined services above, named as
   ![Screen capture of workspace tile menu](images/workspace_details.png)
 
 9. Click the ![Copy](images/copy_icon.png) icon to copy the workspace ID to the clipboard.
+
+10. Go to **Runtime** view in the application created and add the copied workspace ID as a new user defined environment variable named WORKSPACE_ID under the **Environment Variable** tab
+
+### Work in progress
+
+- Some use case and architecture info
+
+- Client details
 
 [sign_up]: https://console.ng.bluemix.net/registration/
