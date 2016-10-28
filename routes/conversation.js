@@ -25,8 +25,8 @@ var conversation = watson.conversation(conversationConfig);
 
 router.get( '/', function(req, res, next) {
   var querytext = req.query.text;
-  var workspace = process.env.conversation_workspaceid || '<WORKPSPACE_ID>';
-  if ( !workspace === '<WORKSPACE_ID>' ) {
+  var workspace = process.env.conversation_workspaceid || '<WORKSPACE_ID>';
+  if ( !workspace || workspace === '<WORKSPACE_ID>' ) {
     return res.json( {
       'output': {
         'text': 'The app has not been configured with a <b>WORKSPACE_ID</b> environment variable. Please refer to the ' +
@@ -42,13 +42,11 @@ router.get( '/', function(req, res, next) {
     input: {}
   };
   if ( req.body ) {
-    console.log('inside req.body');
     payload.input = {text: querytext};
-    console.log('Inside the req.body.input paylod is::  '+(JSON.stringify(payload.input)));
     payload.context = context_var;
     console.log('Context conver id = '+ context_var.conversation_id);
+  }
 
-	}
   // Send the input to the conversation service
   conversation.message( payload, function(err, data) {
     if ( err ) {
@@ -63,27 +61,62 @@ router.get( '/', function(req, res, next) {
 });
 
 function updateMessage(input, response, callbackFunc) {
-	console.log('inside updateMessage: '+(JSON.stringify(response, null, 4)));
+  console.log('inside updateMessage: '+(JSON.stringify(response, null, 4)));
   context_var = response.context;
   console.log(JSON.stringify(context_var, null, 4));
   var city = context_var.place;
-
+  var reqDate  = context_var.date;
   var responseText = response.output.text;
-  if(city === undefined) {return callbackFunc(null, responseText)} ;
 
+  // API to return date
+  var curPlace  = context_var.curPlace;
+  if(curPlace !== undefined )
+  {
+    var currentDate;
+    var lat;
+    var long;
+    var options = {
+      method: 'GET',
+      url: 'https://maps.googleapis.com/maps/api/geocode/json',
+      qs:{
+        address:curPlace,
+        key: process.env.google_api_key || '<GOOGLE_API_KEY>'
+      },
+      header:{}
+    };
+    request(options, function (error, response, body) {
+      if (error) throw new Error(error);
+      var b = JSON.parse(response.body);
+      lat = (b.results[0].geometry.location.lat);
+      long = (b.results[0].geometry.location.lng);
+      lat = Number((lat).toFixed(2));
+      long = Number((long).toFixed(2));
+      var dateurl = 'http://api.geonames.org/timezoneJSON?lat='+lat+'&lng='+long+'&username=cognibot';
+      request(dateurl, function(error, response, body){
+        if(error) console.log(error);
+        currentDate = JSON.parse(response.body);
+        context_var.curPlace = undefined;
+        callbackFunc(null, 'Current date and time is '+currentDate.time);
+        return ;
+      });
+      return;
+    });
+    return;
+  }
+
+  if(city === undefined) {return callbackFunc(null, responseText)} ;
   if(city != undefined){
     console.log('Context var: City is  '+city);
     console.log('calling location api to get lat long of '+city);
     var weather;
     var lat;
     var long;
-
     var options = {
       method: 'GET',
       url: 'https://maps.googleapis.com/maps/api/geocode/json',
       qs:{
         address:city,
-        key: '<GOOGLE_API_KEY>'
+        key: process.env.google_api_key || '<GOOGLE_API_KEY>'
       },
       header:{}
     };
@@ -91,32 +124,24 @@ function updateMessage(input, response, callbackFunc) {
   var wConditions;
   //calling google geocode api to get latitude, longitude of the city
   request(options, function (error, response, body) {
-        if (error) throw new Error(error);
-        var b = JSON.parse(response.body);
-        console.log(b.results[0].geometry.location.lat);
-        console.log(b.results[0].geometry.location.lng);
-        lat = (b.results[0].geometry.location.lat);
-        long = (b.results[0].geometry.location.lng);
-        lat = Number((lat).toFixed(2));
-        long = Number((long).toFixed(2));
-        var no_day;
-        console.log(lat);
-        console.log(long);
+    if (error) throw new Error(error);
+    var b = JSON.parse(response.body);
+    lat = (b.results[0].geometry.location.lat);
+    long = (b.results[0].geometry.location.lng);
+    lat = Number((lat).toFixed(2));
+    long = Number((long).toFixed(2));
+    var no_day;
 
-        //calling weather company data service from bluemix.
-        //replace username and password with your credentials from weather service
-        var url = 'https://<username>:<password>@twcservice.mybluemix.net:443/api/weather/v1/geocode/'+lat+'/'+long+'/forecast/daily/10day.json?units=m&language=en-US'
-        console.log(url);
-        request(url, function(error, response, body){
-          if(error) console.log(error);
-          //console.log(response.body);
-          wConditions = JSON.parse(response.body);
-          console.log("Got the weather CONDITIONS" + wConditions.forecasts[0].narrative);
-          //responseText = wConditions.forecasts[0].narrative;
-          context_var.place = undefined;
-          return callbackFunc(null, wConditions.forecasts[0].narrative);
-        });
-});
+    //calling weather company data service from bluemix.
+    var url = 'https://'+process.env.weather_username+':'+process.env.weather_password+'@twcservice.mybluemix.net:443/api/weather/v1/geocode/'+lat+'/'+long+'/forecast/daily/10day.json?units=m&language=en-US'
+    request(url, function(error, response, body){
+      if(error) console.log(error);
+        wConditions = JSON.parse(response.body);
+        context_var.place = undefined;
+        return callbackFunc(null, wConditions.forecasts[0].narrative);
+      });
+    });
+  }
 }
-}
+
 module.exports = router;
