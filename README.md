@@ -66,7 +66,7 @@ It will automatically create an instance of the defined services above, named as
 
 9. Click the ![Copy](images/copy_icon.png) icon to copy the workspace ID to the clipboard.
 
-10. Go to **Runtime** view in the application created and add the copied workspace ID as a new user defined environment variable named WORKSPACE_ID under the **Environment Variable** tab
+10. Go to **Runtime** view in the application created and add the copied workspace ID as a new user defined environment variable named CONVERSATION_WORKSPACEID under the **Environment Variable** tab
 
 ### Work in progress
 
