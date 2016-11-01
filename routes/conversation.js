@@ -15,8 +15,8 @@ var context_var = {};
 // Create the service wrapper
 var conversationConfig = extend({
   url: 'https://gateway.watsonplatform.net/conversation/api',
-  username: process.env.conversation_username || '<USERNAME>',
-  password: process.env.convesation_password || '<PASSWORD>',
+  username: process.env.CONVERSATION_USERNAME || '<CONVERSATION_USERNAME>',
+  password: process.env.CONVERSATION_PASSWORD || '<CONVERSATION_PASSWORD>',
   version_date: '2016-07-11',
   version: 'v1'
 }, vcapServices.getCredentials('conversation'));
@@ -25,14 +25,11 @@ var conversation = watson.conversation(conversationConfig);
 
 router.get( '/', function(req, res, next) {
   var querytext = req.query.text;
-  var workspace = process.env.conversation_workspaceid || '<WORKSPACE_ID>';
-  if ( !workspace || workspace === '<WORKSPACE_ID>' ) {
+  var workspace = process.env.CONVERSATION_WORKSPACEID || '<CONVERSATION_WORKSPACEID>';
+  if ( !workspace || workspace === '<CONVERSATION_WORKSPACEID>' ) {
     return res.json( {
       'output': {
-        'text': 'The app has not been configured with a <b>WORKSPACE_ID</b> environment variable. Please refer to the ' +
-        '<a href="https://github.com/watson-developer-cloud/conversation-simple">README</a> documentation on how to set this variable. <br>' +
-        'Once a workspace has been defined the intents may be imported from ' +
-        '<a href="https://github.com/watson-developer-cloud/conversation-simple/blob/master/training/car_workspace.json">here</a> in order to get a working application.'
+        'text': 'The app has not been configured with a <b>CONVERSATION_WORKSPACEID</b> environment variable.'
       }
     } );
   }
@@ -80,7 +77,7 @@ function updateMessage(input, response, callbackFunc) {
       url: 'https://maps.googleapis.com/maps/api/geocode/json',
       qs:{
         address:curPlace,
-        key: process.env.google_api_key || '<GOOGLE_API_KEY>'
+        key: process.env.GOOGLE_API_KEY || '<GOOGLE_API_KEY>'
       },
       header:{}
     };
@@ -116,7 +113,7 @@ function updateMessage(input, response, callbackFunc) {
       url: 'https://maps.googleapis.com/maps/api/geocode/json',
       qs:{
         address:city,
-        key: process.env.google_api_key || '<GOOGLE_API_KEY>'
+        key: process.env.GOOGLE_API_KEY || '<GOOGLE_API_KEY>'
       },
       header:{}
     };
@@ -133,7 +130,7 @@ function updateMessage(input, response, callbackFunc) {
     var no_day;
 
     //calling weather company data service from bluemix.
-    var url = 'https://'+process.env.weather_username+':'+process.env.weather_password+'@twcservice.mybluemix.net:443/api/weather/v1/geocode/'+lat+'/'+long+'/forecast/daily/10day.json?units=m&language=en-US'
+    var url = 'https://'+process.env.WEATHER_USERNAME+':'+process.env.WEATHER_PASSWORD+'@twcservice.mybluemix.net:443/api/weather/v1/geocode/'+lat+'/'+long+'/forecast/daily/10day.json?units=m&language=en-US'
     request(url, function(error, response, body){
       if(error) console.log(error);
         wConditions = JSON.parse(response.body);
