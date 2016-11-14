@@ -12,7 +12,7 @@ applications:
 declared-services:
   cognitive-cloudantNoSQLDB:
     label: cloudantNoSQLDB
-    plan:  Shared
+    plan:  Lite
   cognitive-iotf-service:
     label: iotf-service
     plan: iotf-service-free

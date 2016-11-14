@@ -24,6 +24,7 @@
         "node-red-contrib-browser-utils":"0.x",
         "node-red-contrib-media-utils":"0.x",
         "node-red-contrib-play-audio": "2.0.x",
+        "node-red-contrib-facebook-messenger-writer":"0.x",
         "node-red-dashboard": "2.0.x",
         "node-red-node-cf-cloudant":"0.x",
         "node-red-contrib-scx-ibmiotapp":"0.x",
