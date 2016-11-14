@@ -1,5 +1,5 @@
 applications:
-- memory: 512M
+- memory: 1024M
   services:
   - cognitive-cloudantNoSQLDB
   - cognitive-iotf-service

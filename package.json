@@ -1,6 +1,6 @@
 {
     "name"         : "cognitive-bluemix-starter",
-    "version"      : "1.0.0",
+    "version"      : "1.0.1",
     "dependencies": {
         "body-parser": "~1.15.1",
         "cookie-parser": "~1.4.3",
@@ -41,7 +41,7 @@
         "ws": "*"
     },
     "engines": {
-        "node": "0.12.x"
+        "node": "4.x"
     },
     "config": {
         "engine-strict": true
