@@ -1,6 +1,6 @@
 {
     "name"         : "cognitive-bluemix-starter",
-    "version"      : "1.0.0",
+    "version"      : "1.0.1",
     "dependencies": {
         "body-parser": "~1.15.1",
         "cookie-parser": "~1.4.3",
@@ -24,6 +24,7 @@
         "node-red-contrib-browser-utils":"0.x",
         "node-red-contrib-media-utils":"0.x",
         "node-red-contrib-play-audio": "2.0.x",
+        "node-red-contrib-facebook-messenger-writer":"0.x",
         "node-red-dashboard": "2.0.x",
         "node-red-node-cf-cloudant":"0.x",
         "node-red-contrib-scx-ibmiotapp":"0.x",
@@ -41,7 +42,7 @@
         "ws": "*"
     },
     "engines": {
-        "node": "0.12.x"
+        "node": "4.x"
     },
     "config": {
         "engine-strict": true
