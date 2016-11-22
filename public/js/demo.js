@@ -86,12 +86,11 @@ $(document).ready(function() {
 			$('#messages').append($('<li>').text(msg));
 			$('#chat-input').val('');
 
-			$.get({
-				url : '/conversation',
-				data : {
-					text : msg
-				},
-				success : function(data) {
+			$.post({
+				url: converseUrl(),
+				data: payload,
+        dataType: 'json',
+				success: function(data) {
 					console.log(data);
 					var reply  = data;
 					//reply.replace(","," ");
@@ -102,13 +101,16 @@ $(document).ready(function() {
 					$(".chat").animate({ scrollTop: $(document).height() }, "slow");
 
 					getTTSToken.then(function(token) {
-					WatsonSpeech.TextToSpeech.synthesize({
-					 text: data,
-					 token: token
-				 });
-
-			 });
-			}
-		});
+					  WatsonSpeech.TextToSpeech.synthesize({
+					    text: data,
+					    token: token
+				    });
+			    });			
+        },
+        error: function(err) {
+          console.log(JSON.stringify(err));
+          $loader.hide();
+        }                 
+      });
 	}
 });
