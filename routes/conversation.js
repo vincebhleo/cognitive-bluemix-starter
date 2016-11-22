@@ -7,6 +7,9 @@ var location = require('../app/location/location');
 var vcapServices = require('vcap_services');
 var request = require('request');
 var cfenv = require('cfenv');
+var mydate = require('./datetime');
+var weather = require('./weather');
+
 var context_var = {};
 // Create the service wrapper
 var conversation = watson.conversation( {
@@ -107,24 +110,23 @@ function updateMessage(input, response, callbackFunc) {
   var curPlace  = context_var.curPlace;
 if(response.intents[0].intent ==='date')
 {
-    //var arr = getLatLong(curPlace);
-    var dateurl = 'http://api.geonames.org/timezoneJSON?lat='+lat+'&lng='+long+'&username=cognibot';
-    request(dateurl, function(error, response, body){
-          if(error) console.log(error);
-          console.log('calling service');
-          console.log(response.body);
-          currentDate = JSON.parse(response.body);
-          context_var.curPlace = undefined;
-          callbackFunc(null, 'Current date and time is '+currentDate.time);
-              
-              return ;
-            });
+           mydate.getDateTime(lat,long, function(err, data) {
+         	console.log("time is " + data);
+          callbackFunc(null, data);
+        });  
         return;
 }
 if(response.intents[0].intent ==='weather')
 {
+	
+	 weather.getWeather(lat,long, function(err, data) {
+         	console.log("getWeather is " + data);
+          callbackFunc(null, data);
+        });  
+        return;
+	
        // var arr = getLatLong(city);
-        var url = 'https://'+weatherConfig.username+':'+weatherConfig.password+'@twcservice.mybluemix.net:'+weatherConfig.port+'/api/weather/v1/geocode/'+lat+'/'+long+'/forecast/daily/10day.json?units=m&language=en-US'
+      /*  var url = 'https://'+weatherConfig.username+':'+weatherConfig.password+'@twcservice.mybluemix.net:'+weatherConfig.port+'/api/weather/v1/geocode/'+lat+'/'+long+'/forecast/daily/10day.json?units=m&language=en-US'
         request(url, function(error, response, body){
           if(error) console.log(error);
           wConditions = JSON.parse(response.body);
@@ -132,7 +134,7 @@ if(response.intents[0].intent ==='weather')
           context_var.place = undefined;
           console.log(wConditions.forecasts[0].narrative);
           return callbackFunc(null, wConditions.forecasts[0].narrative);
-        });
+        });*/
 }
 }
 module.exports = router;
