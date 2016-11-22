@@ -7,7 +7,7 @@ var location = require('../app/location/location');
 var vcapServices = require('vcap_services');
 var request = require('request');
 var cfenv = require('cfenv');
-var datetime = require('../routes/datetime');
+var datetime = require('datetime');
 var context_var = {};
 // Create the service wrapper
 var conversation = watson.conversation( {
