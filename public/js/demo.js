@@ -9,6 +9,47 @@ $(document).ready(function() {
 	$loader = $('.loader');
 	$micButton = $('.chat-window--microphone-button');
 
+  var isNodeJs = function() {
+    return 'nodeJs' == $("input[name=platform]:checked").val();
+  };
+  
+  var isNodeRed = function() {
+    return 'nodeRed' == $("input[name=platform]:checked").val();
+  };
+  
+  var converseUrl = function() {
+    if (isNodeJs()) {
+      return '/conversejs';
+    } else {
+      return '/conversered';
+    }
+  };
+
+  
+  function sendRequest() {
+    if(navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(onGotWeatherSuccess, onGotWeatherFailed);   
+    } else {
+      alert('Geolocation is not supported by this browser.');
+    }    
+  }
+  
+  function onGotWeatherSuccess(position) {   
+    var params = 'lat=' + position.coords.latitude + '&long=' + position.coords.longitude;
+    var payload = {};
+    
+    payload.lat = position.coords.latitude;
+    payload.long = position.coords.longitude;
+    payload.text = $('#chat-input').val();
+    
+    console.log(payload);
+    converse($('#chat-input').val(), payload);   
+  };
+  
+  function onGotWeatherFailed(err) {   
+    alert('Error getting weather ' + err);     
+  };
+  
 	var getSTTToken = $.ajax('/api/speech-to-text/token');
  	var getTTSToken = $.ajax('/api/text-to-speech/token');
 
@@ -57,13 +98,31 @@ $(document).ready(function() {
     }
   }
 
+  function text2Speech(data) {
+    getTTSToken.then(function(token) {
+					WatsonSpeech.TextToSpeech.synthesize({
+					 text: data,
+					 token: token
+				 });
+
+			 });
+  }
+  
   $micButton.mousedown(function() {  
     $micButton.removeClass('normal').addClass('active');
-    record();      
+    if (isNodeJs()) {
+      record();
+    } else {
+    } 
+    
   });
     
   $micButton.mouseup(function() { 
-    stopRecording();
+  $micButton.addClass('normal');
+    if (isNodeJs()) {
+      stopRecording();
+    } else {
+    }
   });
     
 	$loader.hide();
@@ -74,18 +133,19 @@ $(document).ready(function() {
 	$chatInput.focus();
 	$chatInput.keyup(function(event){
 		if(event.keyCode === 13) {
-			converse($(this).val());
+      sendRequest();
 		}
 	});
-		var converse = function(userText){
+  
+  var converse = function(userText, payload){
 			$(".chat").animate({ scrollTop: $(document).height() }, "slow");
 			$loader.css('visibility','visible');
 			$loader.show();
 			var msg = $('#chat-input').val();
-			console.log(msg);
+			console.log("payload : " + payload);
 			$('#messages').append($('<li>').text(msg));
-			$('#chat-input').val('');
-
+			$('#chat-input').val('');         
+                 
 			$.post({
 				url: converseUrl(),
 				data: payload,
@@ -112,5 +172,7 @@ $(document).ready(function() {
           $loader.hide();
         }                 
       });
-	}
+	};
+		
+  
 });
