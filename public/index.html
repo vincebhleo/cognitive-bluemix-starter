@@ -28,16 +28,24 @@
 							</div>
 							<div style="height: 15px; visibility: hidden;"></div>
 					</div>
+        
+				<input type="text" id="chat-input" placeholder="Type a response and hit enter" autocomplete="off" > 
+        <div id="platform-div">
+          <input type="radio" id="nodeJs" name="platform" value="nodeJs"  class="platform"/>
+<label class="platform-label" for="nodeJs">Node.js</label>
 
-				<input type="text" id="chat-input" placeholder="Type a response and hit enter" autocomplete="off" >
+<input type="radio" id="nodeRed" name="platform" value="nodeRed" checked class="platform"/>
+<label class="platform-label" for="nodeRed">Node-Red</label><br>
+
+        </div>
+        
 				<img class="chat-window--microphone-button" src="/images/icons/microphone.svg" alt="Record via Microphone"/>
 			</div>
 		</div>
 
 </div>
 
-		<script type="text/javascript"
-		src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 		<script type="text/javascript" src="js/watson-speech.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.2.61/jspdf.min.js"></script>
   	<script type="text/javascript" src="js/demo.js"></script>
