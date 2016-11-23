@@ -9,7 +9,6 @@ var request = require('request');
 var cfenv = require('cfenv');
 var mydate = require('./datetime');
 var weather = require('./weather');
-
 var context_var = {};
 // Create the service wrapper
 var conversation = watson.conversation( {
@@ -43,8 +42,6 @@ var options;
 router.post( '/', function(req, res, next) {
 	
   var qryParams = req.body.text;
-  lat = req.body.lat;
-  long = req.body.long;
   console.log('input text--------------------------->>>>>');
   console.log(req.body.text);
   var workspace = '0f120182-c05f-4b1a-b901-72ab52a95c9a';
@@ -110,31 +107,19 @@ function updateMessage(input, response, callbackFunc) {
   var curPlace  = context_var.curPlace;
 if(response.intents[0].intent ==='date')
 {
-           mydate.getDateTime(lat,long, function(err, data) {
-         	console.log("time is " + data);
+        mydate.getDateTime(lat,long, function(err, data) {
+        console.log("time is " + data);
           callbackFunc(null, data);
         });  
         return;
 }
 if(response.intents[0].intent ==='weather')
 {
-	
 	 weather.getWeather(lat,long, function(err, data) {
-         	console.log("getWeather is " + data);
-          callbackFunc(null, data);
-        });  
+     console.log("getWeather is " + data);
+     callbackFunc(null, data);
+  });  
         return;
-	
-       // var arr = getLatLong(city);
-      /*  var url = 'https://'+weatherConfig.username+':'+weatherConfig.password+'@twcservice.mybluemix.net:'+weatherConfig.port+'/api/weather/v1/geocode/'+lat+'/'+long+'/forecast/daily/10day.json?units=m&language=en-US'
-        request(url, function(error, response, body){
-          if(error) console.log(error);
-          wConditions = JSON.parse(response.body);
-          //responseText = wConditions.forecasts[0].narrative;
-          context_var.place = undefined;
-          console.log(wConditions.forecasts[0].narrative);
-          return callbackFunc(null, wConditions.forecasts[0].narrative);
-        });*/
 }
 }
 module.exports = router;
