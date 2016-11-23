@@ -110,8 +110,6 @@ function updateMessage(input, response, callbackFunc) {
   var curPlace  = context_var.curPlace;
 if(response.intents[0].intent ==='date')
 {
-           mydate.getDateTime(lat,long, function(err, data) {
-         	console.log("time is " + data);
         mydate.getDateTime(lat,long, function(err, data) {
         console.log("time is " + data);
           callbackFunc(null, data);
@@ -124,13 +122,8 @@ if(response.intents[0].intent ==='weather')
 	 weather.getWeather(lat,long, function(err, data) {
          	console.log("getWeather is " + data);
           callbackFunc(null, data);
-        });  
-     console.log("getWeather is " + data);
-     callbackFunc(null, data);
-  });  
+		  });  
         return;
-	
-      
 }
 }
 module.exports = router;
