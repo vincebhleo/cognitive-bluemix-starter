@@ -152,6 +152,14 @@ h3{
 	font-weight: normal;  
 }
 
+.platform-link{
+  font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+  margin-right: 4px;
+  font-size: 14px;  
+	font-weight: normal;  
+  cursor: pointer;
+}
+
 #chat-input{
 	position: absolute;
 	height: 4%;

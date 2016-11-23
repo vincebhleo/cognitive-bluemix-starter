@@ -5,6 +5,10 @@ $(document).ready(function() {
   var stream = null;
 	$('#messages').append($('<li>').text(""));
 
+  $( "#node-red-label" ).click(function() {
+    window.open('https://' + window.location.hostname + "/red", '_blank');
+  });
+  
 	$chatInput = $('#chat-input');
 	$loader = $('.loader');
 	$micButton = $('.chat-window--microphone-button');
