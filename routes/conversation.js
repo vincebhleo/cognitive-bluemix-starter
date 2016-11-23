@@ -9,6 +9,7 @@ var request = require('request');
 var cfenv = require('cfenv');
 var mydate = require('./datetime');
 var weather = require('./weather');
+
 var context_var = {};
 // Create the service wrapper
 var conversation = watson.conversation( {
@@ -26,10 +27,24 @@ try {
 } catch (e) {
   console.error(e);
 }
+// get the app environment from Cloud Foundry, defaulting to local VCAP
+var appEnvOpts = vcapLocal ? {
+  vcap: vcapLocal
+} : {};
+var appEnv = cfenv.getAppEnv(appEnvOpts);
+var weatherConfig = appEnv.getServiceCreds("cognitive-weatherinsights");
+var wConditions;
+var b;
+var currentDate;
 var lat;
 var long;
+var options;
+
 router.post( '/', function(req, res, next) {
+	
   var qryParams = req.body.text;
+  lat = req.body.lat;
+  long = req.body.long;
   console.log('input text--------------------------->>>>>');
   console.log(req.body.text);
   var workspace = '0f120182-c05f-4b1a-b901-72ab52a95c9a';
@@ -65,10 +80,38 @@ updateMessage(payload, data, function(err, data) {
   });
 });
 
+function getLatLong(curPlace)
+{
+  options = {
+   method: 'GET',
+   url: 'https://maps.googleapis.com/maps/api/geocode/json',
+   qs:{
+     address:curPlace,
+     key: 'AIzaSyBCkRI_Emw5Zc73676jS2K8ZUakThPaS2w'
+   },
+   header:{}
+ };
+ 
+request(options, function (error, response, body) {
+           if (error) throw new Error(error);
+           b = JSON.parse(response.body);
+           lat = (b.results[0].geometry.location.lat);
+           long = (b.results[0].geometry.location.lng);
+           lat = Number((lat).toFixed(2));
+           long = Number((long).toFixed(2));
+           });
+           return [lat,long];
+}
+
 function updateMessage(input, response, callbackFunc) {
   context_var = response.context;
+  var city = context_var.place;
+  var responseText = response.output.text;
+  var curPlace  = context_var.curPlace;
 if(response.intents[0].intent ==='date')
 {
+           mydate.getDateTime(lat,long, function(err, data) {
+         	console.log("time is " + data);
         mydate.getDateTime(lat,long, function(err, data) {
         console.log("time is " + data);
           callbackFunc(null, data);
@@ -77,11 +120,17 @@ if(response.intents[0].intent ==='date')
 }
 if(response.intents[0].intent ==='weather')
 {
+	
 	 weather.getWeather(lat,long, function(err, data) {
+         	console.log("getWeather is " + data);
+          callbackFunc(null, data);
+        });  
      console.log("getWeather is " + data);
      callbackFunc(null, data);
   });  
         return;
+	
+      
 }
 }
 module.exports = router;
