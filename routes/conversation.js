@@ -26,21 +26,9 @@ try {
 } catch (e) {
   console.error(e);
 }
-// get the app environment from Cloud Foundry, defaulting to local VCAP
-var appEnvOpts = vcapLocal ? {
-  vcap: vcapLocal
-} : {};
-var appEnv = cfenv.getAppEnv(appEnvOpts);
-var weatherConfig = appEnv.getServiceCreds("cognitive-weatherinsights");
-var wConditions;
-var b;
-var currentDate;
 var lat;
 var long;
-var options;
-
 router.post( '/', function(req, res, next) {
-	
   var qryParams = req.body.text;
   console.log('input text--------------------------->>>>>');
   console.log(req.body.text);
@@ -77,34 +65,8 @@ updateMessage(payload, data, function(err, data) {
   });
 });
 
-function getLatLong(curPlace)
-{
-  options = {
-   method: 'GET',
-   url: 'https://maps.googleapis.com/maps/api/geocode/json',
-   qs:{
-     address:curPlace,
-     key: 'AIzaSyBCkRI_Emw5Zc73676jS2K8ZUakThPaS2w'
-   },
-   header:{}
- };
- 
-request(options, function (error, response, body) {
-           if (error) throw new Error(error);
-           b = JSON.parse(response.body);
-           lat = (b.results[0].geometry.location.lat);
-           long = (b.results[0].geometry.location.lng);
-           lat = Number((lat).toFixed(2));
-           long = Number((long).toFixed(2));
-           });
-           return [lat,long];
-}
-
 function updateMessage(input, response, callbackFunc) {
   context_var = response.context;
-  var city = context_var.place;
-  var responseText = response.output.text;
-  var curPlace  = context_var.curPlace;
 if(response.intents[0].intent ==='date')
 {
         mydate.getDateTime(lat,long, function(err, data) {
