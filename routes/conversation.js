@@ -3,142 +3,138 @@ var express = require('express');
 var app = express();
 var router = express.Router();
 var watson = require( 'watson-developer-cloud' );
-var weather = require('../app/weather/weather');
 var location = require('../app/location/location');
 var vcapServices = require('vcap_services');
 var request = require('request');
-var vcapServices = require('vcap_services');
-var extend = require('util')._extend;
+var cfenv = require('cfenv');
+var mydate = require('./datetime');
+var weather = require('./weather');
 
 var context_var = {};
-
 // Create the service wrapper
-var conversationConfig = extend({
+var conversation = watson.conversation( {
   url: 'https://gateway.watsonplatform.net/conversation/api',
-  username: process.env.CONVERSATION_USERNAME || '<CONVERSATION_USERNAME>',
-  password: process.env.CONVERSATION_PASSWORD || '<CONVERSATION_PASSWORD>',
+  username: process.env.conversation_username || '<USERNAME>',
+  password: process.env.convesation_password || '<PASSWORD>',
   version_date: '2016-07-11',
   version: 'v1'
 }, vcapServices.getCredentials('conversation'));
+// load local VCAP configuration
+var vcapLocal = null;
+try {
+  vcapLocal = require("./vcap-local.json");
+  console.log("Loaded local VCAP", vcapLocal);
+} catch (e) {
+  console.error(e);
+}
+// get the app environment from Cloud Foundry, defaulting to local VCAP
+var appEnvOpts = vcapLocal ? {
+  vcap: vcapLocal
+} : {};
+var appEnv = cfenv.getAppEnv(appEnvOpts);
+var weatherConfig = appEnv.getServiceCreds("cognitive-weatherinsights");
+var wConditions;
+var b;
+var currentDate;
+var lat;
+var long;
+var options;
 
-var conversation = watson.conversation(conversationConfig);
-
-router.get( '/', function(req, res, next) {
-  var querytext = req.query.text;
-  var workspace = process.env.CONVERSATION_WORKSPACEID || '<CONVERSATION_WORKSPACEID>';
-  if ( !workspace || workspace === '<CONVERSATION_WORKSPACEID>' ) {
-    return res.json( {
+router.post( '/', function(req, res, next) {
+	
+  var qryParams = req.body.text;
+  lat = req.body.lat;
+  long = req.body.long;
+  console.log('input text--------------------------->>>>>');
+  console.log(req.body.text);
+  var workspace = '0f120182-c05f-4b1a-b901-72ab52a95c9a';
+  	var err ;
+  if ( !workspace ) {
+  	err = {
       'output': {
-        'text': 'The app has not been configured with a <b>CONVERSATION_WORKSPACEID</b> environment variable.'
+        'text': 'The app has not been configured with a <b>WORKSPACE_ID</b> environment variable. Please refer to the ' +
+        '<a href="https://github.com/watson-developer-cloud/conversation-simple">README</a> documentation on how to set this variable. <br>' +
+        'Once a workspace has been defined the intents may be imported from ' +
+        '<a href="https://github.com/watson-developer-cloud/conversation-simple/blob/master/training/car_workspace.json">here</a> in order to get a working application.'
       }
-    } );
-  }
-  var payload = {
-    workspace_id: workspace,
-    context: {},
-    input: {}
   };
-  if ( req.body ) {
-    payload.input = {text: querytext};
-    payload.context = context_var;
-    console.log('Context conver id = '+ context_var.conversation_id);
+      return res.status(500).json(err);   
   }
-
+var payload = {
+    workspace_id: workspace,
+    context: {}
+};
+payload.input = {text: qryParams};
+if ( req.body ) {
+	 	payload.input ={text: qryParams};
+      payload.context = context_var;
+	}
   // Send the input to the conversation service
-  conversation.message( payload, function(err, data) {
+conversation.message( payload, function(err, data) {
     if ( err ) {
       return res.status( err.code || 500 ).json( err );
     }
-
-    updateMessage(payload, data, function(err, data) {
-      console.log('replyxxx '+ data);
+updateMessage(payload, data, function(err, data) {
       return res.status( 200 ).json( data );
     });
   });
 });
 
-function updateMessage(input, response, callbackFunc) {
-  console.log('inside updateMessage: '+(JSON.stringify(response, null, 4)));
-  context_var = response.context;
-  console.log(JSON.stringify(context_var, null, 4));
-  var city = context_var.place;
-  var reqDate  = context_var.date;
-  var responseText = response.output.text;
-
-  // API to return date
-  var curPlace  = context_var.curPlace;
-  if(curPlace !== undefined )
-  {
-    var currentDate;
-    var lat;
-    var long;
-    var options = {
-      method: 'GET',
-      url: 'https://maps.googleapis.com/maps/api/geocode/json',
-      qs:{
-        address:curPlace,
-        key: process.env.GOOGLE_API_KEY || '<GOOGLE_API_KEY>'
-      },
-      header:{}
-    };
-    request(options, function (error, response, body) {
-      if (error) throw new Error(error);
-      var b = JSON.parse(response.body);
-      lat = (b.results[0].geometry.location.lat);
-      long = (b.results[0].geometry.location.lng);
-      lat = Number((lat).toFixed(2));
-      long = Number((long).toFixed(2));
-      var dateurl = 'http://api.geonames.org/timezoneJSON?lat='+lat+'&lng='+long+'&username=cognibot';
-      request(dateurl, function(error, response, body){
-        if(error) console.log(error);
-        currentDate = JSON.parse(response.body);
-        context_var.curPlace = undefined;
-        callbackFunc(null, 'Current date and time is '+currentDate.time);
-        return ;
-      });
-      return;
-    });
-    return;
-  }
-
-  if(city === undefined) {return callbackFunc(null, responseText)} ;
-  if(city != undefined){
-    console.log('Context var: City is  '+city);
-    console.log('calling location api to get lat long of '+city);
-    var weather;
-    var lat;
-    var long;
-    var options = {
-      method: 'GET',
-      url: 'https://maps.googleapis.com/maps/api/geocode/json',
-      qs:{
-        address:city,
-        key: process.env.GOOGLE_API_KEY || '<GOOGLE_API_KEY>'
-      },
-      header:{}
-    };
-
-  var wConditions;
-  //calling google geocode api to get latitude, longitude of the city
-  request(options, function (error, response, body) {
-    if (error) throw new Error(error);
-    var b = JSON.parse(response.body);
-    lat = (b.results[0].geometry.location.lat);
-    long = (b.results[0].geometry.location.lng);
-    lat = Number((lat).toFixed(2));
-    long = Number((long).toFixed(2));
-    var no_day;
-
-    //calling weather company data service from bluemix.
-    var url = 'https://'+process.env.WEATHER_USERNAME+':'+process.env.WEATHER_PASSWORD+'@twcservice.mybluemix.net:443/api/weather/v1/geocode/'+lat+'/'+long+'/forecast/daily/10day.json?units=m&language=en-US'
-    request(url, function(error, response, body){
-      if(error) console.log(error);
-        wConditions = JSON.parse(response.body);
-        context_var.place = undefined;
-        return callbackFunc(null, wConditions.forecasts[0].narrative);
-      });
-    });
-  }
+function getLatLong(curPlace)
+{
+  options = {
+   method: 'GET',
+   url: 'https://maps.googleapis.com/maps/api/geocode/json',
+   qs:{
+     address:curPlace,
+     key: 'AIzaSyBCkRI_Emw5Zc73676jS2K8ZUakThPaS2w'
+   },
+   header:{}
+ };
+ 
+request(options, function (error, response, body) {
+           if (error) throw new Error(error);
+           b = JSON.parse(response.body);
+           lat = (b.results[0].geometry.location.lat);
+           long = (b.results[0].geometry.location.lng);
+           lat = Number((lat).toFixed(2));
+           long = Number((long).toFixed(2));
+           });
+           return [lat,long];
 }
 
+function updateMessage(input, response, callbackFunc) {
+  context_var = response.context;
+  var city = context_var.place;
+  var responseText = response.output.text;
+  var curPlace  = context_var.curPlace;
+if(response.intents[0].intent ==='date')
+{
+           mydate.getDateTime(lat,long, function(err, data) {
+         	console.log("time is " + data);
+          callbackFunc(null, data);
+        });  
+        return;
+}
+if(response.intents[0].intent ==='weather')
+{
+	
+	 weather.getWeather(lat,long, function(err, data) {
+         	console.log("getWeather is " + data);
+          callbackFunc(null, data);
+        });  
+        return;
+	
+       // var arr = getLatLong(city);
+      /*  var url = 'https://'+weatherConfig.username+':'+weatherConfig.password+'@twcservice.mybluemix.net:'+weatherConfig.port+'/api/weather/v1/geocode/'+lat+'/'+long+'/forecast/daily/10day.json?units=m&language=en-US'
+        request(url, function(error, response, body){
+          if(error) console.log(error);
+          wConditions = JSON.parse(response.body);
+          //responseText = wConditions.forecasts[0].narrative;
+          context_var.place = undefined;
+          console.log(wConditions.forecasts[0].narrative);
+          return callbackFunc(null, wConditions.forecasts[0].narrative);
+        });*/
+}
+}
 module.exports = router;
