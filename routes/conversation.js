@@ -116,14 +116,17 @@ if(response.intents[0].intent ==='date')
         });  
         return;
 }
-if(response.intents[0].intent ==='weather')
-{
+else if(response.intents[0].intent ==='weather')
+		{
+			 weather.getWeather(lat,long, function(err, data) {
+	         console.log("getWeather is " + data);
+	          callbackFunc(null, data);
+			  });  
+	        return;
 	
-	 weather.getWeather(lat,long, function(err, data) {
-         	console.log("getWeather is " + data);
-          callbackFunc(null, data);
-		  });  
-        return;
-}
-}
+		}
+		else
+		{
+			return callback(null, response.output.text[0])
+		}
 module.exports = router;
