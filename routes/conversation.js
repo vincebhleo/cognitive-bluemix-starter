@@ -127,6 +127,6 @@ else if(response.intents[0].intent ==='weather')
 		}
 		else
 		{
-			return callback(null, response.output.text[0])
+			return callback(null, response.output.text[0]);
 		}
 module.exports = router;
