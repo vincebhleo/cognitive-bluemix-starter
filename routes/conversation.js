@@ -110,31 +110,25 @@ function updateMessage(input, response, callbackFunc) {
   var curPlace  = context_var.curPlace;
 if(response.intents[0].intent ==='date')
 {
-           mydate.getDateTime(lat,long, function(err, data) {
-         	console.log("time is " + data);
+        mydate.getDateTime(lat,long, function(err, data) {
+        console.log("time is " + data);
           callbackFunc(null, data);
         });  
         return;
 }
-if(response.intents[0].intent ==='weather')
-{
+else if(response.intents[0].intent ==='weather')
+		{
+			 weather.getWeather(lat,long, function(err, data) {
+	         console.log("getWeather is " + data);
+	          callbackFunc(null, data);
+			  });  
+	        return;
 	
-	 weather.getWeather(lat,long, function(err, data) {
-         	console.log("getWeather is " + data);
-          callbackFunc(null, data);
-        });  
-        return;
-	
-       // var arr = getLatLong(city);
-      /*  var url = 'https://'+weatherConfig.username+':'+weatherConfig.password+'@twcservice.mybluemix.net:'+weatherConfig.port+'/api/weather/v1/geocode/'+lat+'/'+long+'/forecast/daily/10day.json?units=m&language=en-US'
-        request(url, function(error, response, body){
-          if(error) console.log(error);
-          wConditions = JSON.parse(response.body);
-          //responseText = wConditions.forecasts[0].narrative;
-          context_var.place = undefined;
-          console.log(wConditions.forecasts[0].narrative);
-          return callbackFunc(null, wConditions.forecasts[0].narrative);
-        });*/
-}
-}
+		}
+		else
+		{
+			return callbackFunc(null, response.output.text[0]);
+		}
+	}
+
 module.exports = router;
