@@ -1,0 +1,2 @@
+github "watson-developer-cloud/ios-sdk" "master"
+github "ckrey/MQTT-Client-Framework" "master"

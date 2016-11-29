@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="ipad12_9" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Main View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="MainViewController" customModule="Natural_Language_Interface" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter some text" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="w0f-Sq-dfo">
+                                <rect key="frame" x="71.5" y="1299" width="716.5" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="fBj-w0-4ek"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="go"/>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="Lvg-TP-JBs"/>
+                                </connections>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hJ6-DN-Zih">
+                                <rect key="frame" x="799" y="1274" width="205" height="80"/>
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="gIg-Xa-d3j"/>
+                                </constraints>
+                                <state key="normal" image="speakerIcon"/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="8bZ-z7-DJe" appends="YES" id="Ykk-q3-656"/>
+                                </connections>
+                            </button>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0V1-vu-4Yf">
+                                <rect key="frame" x="0.0" y="0.0" width="1024" height="1266"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="0V1-vu-4Yf" secondAttribute="trailing" id="1Bd-dg-6mN"/>
+                            <constraint firstItem="w0f-Sq-dfo" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.7" id="Cdv-5j-uje"/>
+                            <constraint firstItem="0V1-vu-4Yf" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="T9N-da-OSf"/>
+                            <constraint firstItem="hJ6-DN-Zih" firstAttribute="top" secondItem="0V1-vu-4Yf" secondAttribute="bottom" constant="8" id="TeF-Yc-mGi"/>
+                            <constraint firstItem="hJ6-DN-Zih" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="XCy-Qt-ndQ"/>
+                            <constraint firstItem="0V1-vu-4Yf" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="dJG-hj-eIj"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="hJ6-DN-Zih" secondAttribute="bottom" constant="12" id="eAB-yC-uTd"/>
+                            <constraint firstItem="w0f-Sq-dfo" firstAttribute="centerY" secondItem="hJ6-DN-Zih" secondAttribute="centerY" id="f02-Y8-RW1"/>
+                            <constraint firstItem="hJ6-DN-Zih" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.2" id="j96-IY-bCz"/>
+                            <constraint firstItem="hJ6-DN-Zih" firstAttribute="leading" secondItem="w0f-Sq-dfo" secondAttribute="trailing" constant="11" id="mae-Hn-Eeq"/>
+                            <constraint firstItem="hJ6-DN-Zih" firstAttribute="leading" secondItem="w0f-Sq-dfo" secondAttribute="trailing" constant="11" id="vxw-4H-Bim"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="conversationScrollView" destination="0V1-vu-4Yf" id="8qK-4b-xWx"/>
+                        <outlet property="longPressGesture" destination="8bZ-z7-DJe" id="FaL-Q9-q7G"/>
+                        <outlet property="speakerButton" destination="hJ6-DN-Zih" id="ssj-43-xTz"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="8bZ-z7-DJe">
+                    <connections>
+                        <action selector="longPress:" destination="BYZ-38-t0r" id="BtS-ld-JZb"/>
+                    </connections>
+                </pongPressGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="117.18749999999999" y="122.54758418740849"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="speakerIcon" width="80" height="80"/>
+    </resources>
+</document>
