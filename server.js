@@ -40,7 +40,7 @@ app.use( "/", express.static("public") );
 
 // Create a server
 var httpServer = http.createServer(app);
-var port = process.env.VCAP_APP_PORT || 8080;
+var port = process.env.PORT || 8080;
 
 // Use application-level middleware for common functionality
 app.use(require('morgan')('combined'));
