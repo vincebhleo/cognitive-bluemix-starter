@@ -4,6 +4,7 @@ $(document).ready(function() {
   var self = this;
   var stream = null;
 	$('#messages').append($('<li>').text(""));
+  var audioElement = null;
 
   $( "#node-red-label" ).click(function() {
     window.open('https://' + window.location.hostname + "/red", '_blank');
@@ -163,9 +164,18 @@ $(document).ready(function() {
 					$('#messages').append($('<li>').text(reply));
 					$loader.hide();
 					$(".chat").animate({ scrollTop: $(document).height() }, "slow");
+          
+          if (audioElement) {
+            audioElement.pause();
+            if ((audioElement.currentTime !== 0) &&
+                (audioElement.currentTime > 0 && audioElement.currentTime < audioElement.duration)) {
+                  audioElement.currentTime = 0;
+            }
+            audioElement = null;
+          }
 
 					getTTSToken.then(function(token) {
-					  WatsonSpeech.TextToSpeech.synthesize({
+					  audioElement = WatsonSpeech.TextToSpeech.synthesize({
 					    text: data,
 					    token: token
 				    });
