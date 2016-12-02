@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*******************************************************************************
+* Copyright (c) 2014-2015 IBM Corp.
+*
+* All rights reserved. This program and the accompanying materials
+* are made available under the terms of the Eclipse Public License v1.0
+* and Eclipse Distribution License v1.0 which accompany this distribution.
+*
+* The Eclipse Public License is available at
+*   http://www.eclipse.org/legal/epl-v10.html
+* and the Eclipse Distribution License is available at
+*   http://www.eclipse.org/org/documents/edl-v10.php.
+*
+* Contributors:
+*    Mike Robertson - initial contribution
+*******************************************************************************/
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="com.ibm.iot.android.iotstarter.fragments.LoginPagerFragment"
+    >
+    <!--  <TextView
+              style="@style/MyActionBarTitleText"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
+              android:paddingTop="@dimen/activity_setting_margin"
+              android:paddingBottom="@dimen/activity_setting_margin"
+              android:paddingRight="@dimen/activity_horizontal_margin"
+              android:paddingLeft="@dimen/activity_horizontal_margin"
+              android:text="@string/organization_setting"
+              android:id="@+id/organizationSetting"
+              />-->
+    <RelativeLayout
+        android:layout_width="500dp"
+        android:orientation="horizontal"
+        android:id="@+id/topbar"
+        android:layout_marginTop="0dp"
+        android:background="#336BFF"
+        android:layout_height="55dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Please enter IoTP, STT and TTS credentials"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentLeft="true"
+            android:textSize="18dp"
+            />
+
+    </RelativeLayout>
+    <EditText
+        style="@style/MyActionBarTitleText"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingTop="@dimen/activity_setting_margin"
+        android:paddingBottom="@dimen/activity_setting_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:hint="@string/organization_value"
+        android:inputType="textNoSuggestions"
+        android:textColor="@color/black"
+        android:id="@+id/organizationValue"
+        />
+
+    <EditText
+        style="@style/MyActionBarTitleText"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingTop="@dimen/activity_setting_margin"
+        android:paddingBottom="@dimen/activity_setting_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:hint="@string/device_id_value"
+        android:textColor="@color/black"
+        android:inputType="textNoSuggestions"
+        android:id="@+id/deviceIDValue"
+        />
+    <EditText
+        style="@style/MyActionBarTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingTop="@dimen/activity_setting_margin"
+        android:paddingBottom="@dimen/activity_setting_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:textColor="@color/black"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:hint="@string/auth_token_value"
+        android:inputType="textPassword"
+        android:id="@+id/authTokenValue"
+        />
+    <Button
+        style="@style/SmallButton"
+        android:layout_gravity="center|bottom"
+        android:text="@string/showToken_button"
+        android:id="@+id/showTokenButton"/>
+    <CheckBox
+        android:id="@+id/checkbox_ssl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/useSSL_button"
+        android:visibility="gone"
+        android:checked="true"/>
+    <!--android:onClick="onCheckboxClicked"/-->
+
+    <!-- <Button
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:id="@+id/settings"
+         android:layout_gravity="center|bottom"
+         android:text="@string/action_settings"/>-->
+    <EditText
+        style="@style/MyActionBarTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingTop="@dimen/activity_setting_margin"
+        android:textColor="@color/black"
+        android:paddingBottom="@dimen/activity_setting_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:hint="STT USERNAME"
+        android:inputType="text"
+        android:id="@+id/sttusername"
+        />
+    <EditText
+        style="@style/MyActionBarTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingTop="@dimen/activity_setting_margin"
+        android:paddingBottom="@dimen/activity_setting_margin"
+        android:textColor="@color/black"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:hint="STT PASSWORD"
+        android:inputType="textPassword"
+        android:id="@+id/sttpassword"
+        />
+    <Button
+        style="@style/SmallButton"
+        android:layout_gravity="center|bottom"
+        android:text="@string/showSTTpsw_button"
+        android:id="@+id/showSTTpsd"/>
+    <EditText
+        style="@style/MyActionBarTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingTop="@dimen/activity_setting_margin"
+        android:paddingBottom="@dimen/activity_setting_margin"
+        android:textColor="@color/black"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:hint="TTS USERNAME"
+        android:inputType="text"
+        android:id="@+id/ttsusername"
+        />
+    <EditText
+        style="@style/MyActionBarTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingTop="@dimen/activity_setting_margin"
+        android:paddingBottom="@dimen/activity_setting_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:hint="TTS PASSWORD"
+        android:textColor="@color/black"
+        android:inputType="textPassword"
+        android:id="@+id/ttspassword"
+        />
+    <Button
+        style="@style/SmallButton"
+        android:layout_gravity="center|bottom"
+        android:text="@string/showTTSpsw_button"
+        android:id="@+id/showTTSpsd"/>
+    <TextView
+        style="@style/MyActionBarTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingTop="@dimen/activity_setting_margin"
+        android:paddingBottom="@dimen/activity_setting_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:textAlignment="center"
+        android:text="@string/is_connected"
+        android:visibility="gone"
+        android:id="@+id/isConnected"
+        />
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <Button
+        style="@style/BottomButton"
+        android:layout_gravity="center|bottom"
+        android:text="Save Credentials"
+        android:textColor="@color/white"
+        android:id="@+id/activateButton"/>
+</LinearLayout>
+

@@ -1,0 +1,618 @@
+/**
+ * Copyright IBM Corporation 2016
+ * <p/>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ **/
+
+package com.ibm.watson.developer_cloud.android.myapplication;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.os.Handler;
+import android.text.InputType;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.google.android.gms.security.ProviderInstaller;
+
+import org.eclipse.paho.client.mqttv3.MqttException;
+
+import java.security.KeyStore;
+import java.sql.Timestamp;
+import java.util.Date;
+
+import javax.net.SocketFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
+
+import app.IoTStarterApplication;
+import iot.IoTClient;
+import utils.Constants;
+import utils.DeviceSensor;
+import utils.LocationUtils;
+import utils.MyIoTActionListener;
+
+public class MainActivity extends Activity {
+    private final String TAG = "MainActivity";
+    EditText mSTTUSR, mSTTPASS, mTTSUSR, mTTSPASS;
+    private IoTStarterApplication app;
+    private BroadcastReceiver broadcastReceiver;
+    AppInfo mAPPinfo = AppInfo.getInstance();
+    Button mbtnSettings;
+    Handler handler = new Handler();
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
+    String morganization, mDeviceid, mAuthToken;
+    ProgressDialog pd;
+    String mSTTunm,mSTTpwd,mTTSunm,mTTSpwd;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.login);
+
+        app = (IoTStarterApplication) this.getApplication();
+        app.setCurrentRunningActivity(TAG);
+        pd = new ProgressDialog(this);
+        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        editor = pref.edit();
+
+        morganization = pref.getString("organization", null);
+        mDeviceid = pref.getString("deviceid", null);
+        mAuthToken = pref.getString("authtoken", null);
+
+        mSTTunm=pref.getString("STTUSERNM", null);
+        mSTTpwd=pref.getString("STTPASS", null);
+        mTTSunm=pref.getString("TTSUSRNM", null);
+        mTTSpwd=pref.getString("TTSPSS", null);
+
+        /**
+         * checking the credentials if saved directly move into chat page.
+         */
+
+        if (morganization != null && !morganization.isEmpty() && mDeviceid != null && !mDeviceid.isEmpty() && mAuthToken != null && !mAuthToken.isEmpty()) {
+            pd.setMessage("Connecting to conversation ....");
+            pd.show();
+            pd.setCancelable(false);
+            pd.setCanceledOnTouchOutside(false);
+            handleActivateonce();
+        } else {
+            pd.cancel();
+        }
+
+
+    }
+
+    /**
+     * Called when the fragment is resumed.
+     */
+    @Override
+    public void onResume() {
+        Log.d(TAG, ".onResume() entered");
+
+        super.onResume();
+        app = (IoTStarterApplication) this.getApplication();
+        app.setCurrentRunningActivity(TAG);
+
+        if (broadcastReceiver == null) {
+            Log.d(TAG, ".onResume() - Registering loginBroadcastReceiver");
+            broadcastReceiver = new BroadcastReceiver() {
+
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    Log.d(TAG, ".onReceive() - Received intent for loginBroadcastReceiver");
+                    processIntent(intent);
+
+                }
+            };
+        }
+        {
+
+        }
+
+        getApplicationContext().registerReceiver(broadcastReceiver, new IntentFilter(Constants.APP_ID + Constants.INTENT_LOGIN));
+
+        // initialise
+        initializeLoginActivity();
+    }
+
+    /**
+     * Initializing onscreen elements and shared properties
+     */
+    private void initializeLoginActivity() {
+        Log.d(TAG, ".initializeLoginFragment() entered");
+
+
+        initializeButtons();
+
+
+    }
+
+    /**
+     * Update strings in the fragment based on IoTStarterApplication values.
+     */
+
+    void updateViewStrings() {
+        Log.d(TAG, ".updateViewStrings() entered");
+        // Update only if the organization is set to some non-empty string.
+        if (app.getOrganization() != null) {
+            ((EditText) findViewById(R.id.organizationValue)).setText(app.getOrganization());
+        }
+
+        // DeviceId should never be null at this point.
+        if (app.getDeviceId() != null) {
+            ((EditText) findViewById(R.id.deviceIDValue)).setText(app.getDeviceId());
+        }
+
+        if (app.getAuthToken() != null) {
+            ((EditText) findViewById(R.id.authTokenValue)).setText(app.getAuthToken());
+        }
+        if (app.getmTTSusername()!= null) {
+            ((EditText) findViewById(R.id.ttsusername)).setText(app.getmTTSusername());
+        }
+        if (app.getmTTSpassword() != null) {
+            ((EditText) findViewById(R.id.ttspassword)).setText(app.getmTTSpassword());
+        }
+        if (app.getmSTTusername() != null) {
+            ((EditText) findViewById(R.id.sttusername)).setText(app.getmSTTusername());
+        }
+        if (app.getmSTTpassword() != null) {
+            ((EditText) findViewById(R.id.sttpassword)).setText(app.getmSTTpassword());
+        }
+
+        // Set 'Connected to IoT' to Yes if MQTT client is connected. Leave as No otherwise.
+        if (app.isConnected()) {
+            updateConnectedValues();
+            //processConnectIntent();
+        }
+    }
+
+    /**
+     * Setup listeners for buttons.
+     */
+    private void initializeButtons() {
+        Log.d(TAG, ".initializeButtons() entered");
+        mSTTUSR = (EditText) findViewById(R.id.sttusername);
+        mSTTPASS = (EditText) findViewById(R.id.sttpassword);
+        mTTSUSR = (EditText) findViewById(R.id.ttsusername);
+        mTTSPASS = (EditText) findViewById(R.id.ttspassword);
+        Button showTTSpswd = (Button) findViewById(R.id.showTTSpsd);
+
+        showTTSpswd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleShowTTSPassword();
+            }
+        });
+        Button showSTTpswd = (Button) findViewById(R.id.showSTTpsd);
+        showSTTpswd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleShowSTTPassword();
+            }
+        });
+
+        Button button = (Button) findViewById(R.id.showTokenButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleShowToken();
+            }
+        });
+
+        button = (Button) findViewById(R.id.activateButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                processDisconnectIntent();
+                if (mTTSUSR.getText().toString().trim().length() > 0 & mTTSPASS.getText().toString().trim().length() > 0 & mSTTUSR.getText().toString().trim().length() > 0 & mSTTPASS.getText().toString().trim().length() > 0) {
+
+                    app.setmSTTusername( mSTTUSR.getText().toString());
+                    app.setmSTTpassword(mSTTPASS.getText().toString());
+                    app.setmTTSusername(mTTSUSR.getText().toString());
+                    app.setmTTSpassword(mTTSPASS.getText().toString());
+                    handleActivate();
+
+                } else {
+                    displayconversationSetPropertiesDialog();
+
+                }
+
+            }
+        });
+
+        CheckBox checkbox = (CheckBox) findViewById(R.id.checkbox_ssl);
+        checkbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCheckboxClicked(v);
+            }
+        });
+        checkbox.setChecked(app.isUseSSL());
+    }
+
+    private void handleActivate() {
+        Log.d(TAG, ".handleActivate() entered");
+        String buttonTitle = ((Button) findViewById(R.id.activateButton)).getText().toString();
+        Button activateButton = (Button) findViewById(R.id.activateButton);
+        app.setDeviceType("Android");
+
+
+        app.setDeviceId(((EditText) findViewById(R.id.deviceIDValue)).getText().toString());
+        app.setOrganization(((EditText) findViewById(R.id.organizationValue)).getText().toString());
+        app.setAuthToken(((EditText) findViewById(R.id.authTokenValue)).getText().toString());
+
+
+        editor.putString("organization", ((EditText) findViewById(R.id.organizationValue)).getText().toString());
+        editor.putString("deviceid", ((EditText) findViewById(R.id.deviceIDValue)).getText().toString());
+        editor.putString("authtoken", ((EditText) findViewById(R.id.authTokenValue)).getText().toString());
+
+        editor.putString("STTUSERNM", ((EditText) findViewById(R.id.sttusername)).getText().toString());
+        editor.putString("STTPASS", ((EditText) findViewById(R.id.sttpassword)).getText().toString());
+        editor.putString("TTSUSRNM", ((EditText) findViewById(R.id.ttsusername)).getText().toString());
+        editor.putString("TTSPSS", ((EditText) findViewById(R.id.ttspassword)).getText().toString());
+        editor.commit();
+
+        IoTClient iotClient = IoTClient.getInstance(this, app.getOrganization(), app.getDeviceId(), app.getDeviceType(), app.getAuthToken());
+        activateButton.setEnabled(false);
+        if (buttonTitle.equals(getResources().getString(R.string.activate_button)) && !app.isConnected()) {
+            if (checkCanConnect()) {
+                // create ActionListener to handle message published results
+                try {
+                    SocketFactory factory = null;
+                    if (app.isUseSSL()) {
+                        try {
+                            ProviderInstaller.installIfNeeded(this);
+
+                            SSLContext sslContext;
+                            KeyStore ks = KeyStore.getInstance("bks");
+                            ks.load(this.getResources().openRawResource(R.raw.iot), "password".toCharArray());
+                            TrustManagerFactory tmf = TrustManagerFactory.getInstance("X509");
+                            tmf.init(ks);
+                            TrustManager[] tm = tmf.getTrustManagers();
+                            sslContext = SSLContext.getInstance("TLSv1.2");
+                            sslContext.init(null, tm, null);
+                            factory = sslContext.getSocketFactory();
+                        } catch (Exception e) {
+                            // TODO: handle exception
+                            e.printStackTrace();
+                        }
+                    }
+
+                    MyIoTActionListener listener = new MyIoTActionListener(this, Constants.ActionStateStatus.CONNECTING);
+                    iotClient.connectDevice(app.getMyIoTCallbacks(), listener, factory);
+                } catch (MqttException e) {
+                    if (e.getReasonCode() == (Constants.ERROR_BROKER_UNAVAILABLE)) {
+                        // error while connecting to the broker - send an intent to inform the user
+                        Intent actionIntent = new Intent(Constants.ACTION_INTENT_CONNECTIVITY_MESSAGE_RECEIVED);
+                        actionIntent.putExtra(Constants.CONNECTIVITY_MESSAGE, Constants.ERROR_BROKER_UNAVAILABLE);
+                        sendBroadcast(actionIntent);
+                    }
+                }
+            } else {
+                displaySetPropertiesDialog();
+                activateButton.setEnabled(true);
+            }
+        } else if (buttonTitle.equals(getResources().getString(R.string.deactivate_button)) && app.isConnected()) {
+            // create ActionListener to handle message published results
+            try {
+                MyIoTActionListener listener = new MyIoTActionListener(this, Constants.ActionStateStatus.DISCONNECTING);
+                iotClient.disconnectDevice(listener);
+            } catch (MqttException e) {
+                // Disconnect failed
+            }
+        }
+    }
+
+    private void handleActivateonce() {
+        Log.d(TAG, ".handleActivate() entered");
+        String buttonTitle = ((Button) findViewById(R.id.activateButton)).getText().toString();
+        Button activateButton = (Button) findViewById(R.id.activateButton);
+        app.setDeviceType("Android");
+        app.setDeviceId(mDeviceid);
+        app.setOrganization(morganization);
+        app.setAuthToken(mAuthToken);
+        app.setmSTTusername(mSTTunm);
+        app.setmSTTpassword(mSTTpwd);
+        app.setmTTSusername(mTTSunm);
+        app.setmTTSpassword(mTTSpwd);
+
+        IoTClient iotClient = IoTClient.getInstance(this, app.getOrganization(), app.getDeviceId(), app.getDeviceType(), app.getAuthToken());
+        activateButton.setEnabled(false);
+        if (buttonTitle.equals(getResources().getString(R.string.activate_button)) && !app.isConnected()) {
+            if (checkCanConnect()) {
+                // create ActionListener to handle message published results
+                try {
+                    SocketFactory factory = null;
+                    if (app.isUseSSL()) {
+                        try {
+                            ProviderInstaller.installIfNeeded(this);
+
+                            SSLContext sslContext;
+                            KeyStore ks = KeyStore.getInstance("bks");
+                            ks.load(this.getResources().openRawResource(R.raw.iot), "password".toCharArray());
+                            TrustManagerFactory tmf = TrustManagerFactory.getInstance("X509");
+                            tmf.init(ks);
+                            TrustManager[] tm = tmf.getTrustManagers();
+                            sslContext = SSLContext.getInstance("TLSv1.2");
+                            sslContext.init(null, tm, null);
+                            factory = sslContext.getSocketFactory();
+                        } catch (Exception e) {
+                            // TODO: handle exception
+                            e.printStackTrace();
+                        }
+                    }
+
+                    MyIoTActionListener listener = new MyIoTActionListener(this, Constants.ActionStateStatus.CONNECTING);
+                    iotClient.connectDevice(app.getMyIoTCallbacks(), listener, factory);
+                } catch (MqttException e) {
+                    if (e.getReasonCode() == (Constants.ERROR_BROKER_UNAVAILABLE)) {
+                        // error while connecting to the broker - send an intent to inform the user
+                        Intent actionIntent = new Intent(Constants.ACTION_INTENT_CONNECTIVITY_MESSAGE_RECEIVED);
+                        actionIntent.putExtra(Constants.CONNECTIVITY_MESSAGE, Constants.ERROR_BROKER_UNAVAILABLE);
+                        sendBroadcast(actionIntent);
+                    }
+                }
+            } else {
+                displaySetPropertiesDialog();
+                activateButton.setEnabled(true);
+            }
+        } else if (buttonTitle.equals(getResources().getString(R.string.deactivate_button)) && app.isConnected()) {
+            // create ActionListener to handle message published results
+            try {
+                MyIoTActionListener listener = new MyIoTActionListener(this, Constants.ActionStateStatus.DISCONNECTING);
+                iotClient.disconnectDevice(listener);
+            } catch (MqttException e) {
+                // Disconnect failed
+            }
+        }
+    }
+
+    /**************************************************************************
+     * Functions to handle button presses
+     **************************************************************************/
+
+    /**
+     * Check whether the required properties are set for the app to connect to IoT.
+     *
+     * @return True if properties are set, false otherwise.
+     */
+    private boolean checkCanConnect() {
+        if (app.getOrganization().equals(Constants.QUICKSTART)) {
+            app.setConnectionType(Constants.ConnectionType.QUICKSTART);
+            if (app.getDeviceId() == null || app.getDeviceId().equals("")) {
+                return false;
+            }
+        } else if (app.getOrganization().equals(Constants.M2M)) {
+            app.setConnectionType(Constants.ConnectionType.M2M);
+            if (app.getDeviceId() == null || app.getDeviceId().equals("")) {
+                return false;
+            }
+        } else {
+            app.setConnectionType(Constants.ConnectionType.IOTF);
+            if (app.getOrganization() == null || app.getOrganization().equals("") ||
+                    app.getDeviceId() == null || app.getDeviceId().equals("") ||
+                    app.getAuthToken() == null || app.getAuthToken().equals("")) {
+                return false;
+            }
+        }
+        return true;
+    }
+    /**************************************************************************
+     * Functions to process intent broadcasts from other classes
+     **************************************************************************/
+
+    /**
+     * Process the incoming intent broadcast.
+     *
+     * @param intent The intent which was received by the fragment.
+     */
+    private void processIntent(Intent intent) {
+        Log.d(TAG, ".processIntent() entered");
+
+        // No matter the intent, update log button based on app.unreadCount.
+        updateViewStrings();
+
+        String data = intent.getStringExtra(Constants.INTENT_DATA);
+        assert data != null;
+        if (data.equals(Constants.INTENT_DATA_CONNECT)) {
+            processConnectIntent();
+            Intent i = new Intent(MainActivity.this, ConversationActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
+            pd.cancel();
+        } else if (data.equals(Constants.INTENT_DATA_DISCONNECT)) {
+            processDisconnectIntent();
+        } else if (data.equals(Constants.ALERT_EVENT)) {
+            String message = intent.getStringExtra(Constants.INTENT_DATA_MESSAGE);
+            new AlertDialog.Builder(this)
+                    .setTitle(getResources().getString(R.string.alert_dialog_title))
+                    .setMessage(message)
+                    .setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                        }
+                    }).show();
+        }
+    }
+
+    /**
+     * Intent data contained INTENT_DATA_CONNECT.
+     * Update Connected to Yes.
+     */
+    private void processConnectIntent() {
+        Log.d(TAG, ".processConnectIntent() entered");
+        updateConnectedValues();
+
+        // Log message with the following format:
+        // [yyyy-mm-dd hh:mm:ss.S] Connected to server:
+        // <message text>
+        Date date = new Date();
+        String logMessage = "[" + new Timestamp(date.getTime()) + "] Connected to server";
+        app.getMessageLog().add(logMessage);
+        Intent actionIntent = new Intent(Constants.APP_ID + Constants.INTENT_LOG);
+        actionIntent.putExtra(Constants.INTENT_DATA, Constants.TEXT_EVENT);
+        sendBroadcast(actionIntent);
+
+        if (app.isAccelEnabled()) {
+            LocationUtils locUtils = LocationUtils.getInstance(this);
+            locUtils.connect();
+            app.setDeviceSensor(DeviceSensor.getInstance(this));
+            app.getDeviceSensor().enableSensor();
+        }
+    }
+
+    /**
+     * Display alert dialog indicating what properties must be set in order to connect to IoT.
+     */
+    private void displaySetPropertiesDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle(getResources().getString(R.string.connect_props_title))
+                .setMessage(getResources().getString(R.string.connect_props_text))
+                .setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Do nothing.
+                    }
+                }).show();
+    }
+
+
+    private void displayconversationSetPropertiesDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle(getResources().getString(R.string.connect_props_title))
+                .setMessage(getResources().getString(R.string.connect_conversation_props_text))
+                .setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Do nothing.
+                    }
+                }).show();
+    }
+
+    private void updateConnectedValues() {
+        Button activateButton = (Button) findViewById(R.id.activateButton);
+        activateButton.setEnabled(true);
+        String connectedString = this.getString(R.string.is_connected);
+        connectedString = connectedString.replace("No", "Yes");
+        ((TextView) findViewById(R.id.isConnected)).setText(connectedString);
+        activateButton.setText(getResources().getString(R.string.deactivate_button));
+    }
+
+
+    /**
+     * Intent data contained INTENT_DATA_DISCONNECT.
+     * Update Connected to No.
+     */
+    private void processDisconnectIntent() {
+        Log.d(TAG, ".processDisconnectIntent() entered");
+        Button activateButton = (Button) findViewById(R.id.activateButton);
+        activateButton.setEnabled(true);
+        ((TextView) findViewById(R.id.isConnected)).setText(this.getString(R.string.is_connected));
+        activateButton.setText(getResources().getString(R.string.activate_button));
+
+        // Log message with the following format:
+        // [yyyy-mm-dd hh:mm:ss.S] Received alert:
+        // <message text>
+        Date date = new Date();
+        String logMessage = "[" + new Timestamp(date.getTime()) + "] Disonnected from server";
+        app.getMessageLog().add(logMessage);
+        Intent actionIntent = new Intent(Constants.APP_ID + Constants.INTENT_LOG);
+        actionIntent.putExtra(Constants.INTENT_DATA, Constants.TEXT_EVENT);
+        sendBroadcast(actionIntent);
+
+        if (app.getDeviceSensor() != null && app.isAccelEnabled()) {
+            LocationUtils locUtils = LocationUtils.getInstance(this);
+            app.getDeviceSensor().disableSensor();
+            if (locUtils != null) {
+                locUtils.disconnect();
+            }
+        }
+    }
+
+    /**
+     * Toggle auth token text field secure text entry
+     */
+    private void handleShowToken() {
+        Log.d(TAG, ".handleShowToken() entered");
+        Button showTokenButton = (Button) findViewById(R.id.showTokenButton);
+        String buttonTitle = showTokenButton.getText().toString();
+        EditText tokenText = (EditText) findViewById(R.id.authTokenValue);
+        if (buttonTitle.equals(getResources().getString(R.string.showToken_button))) {
+            showTokenButton.setText(getResources().getString(R.string.hideToken_button));
+            tokenText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+        } else if (buttonTitle.equals(getResources().getString(R.string.hideToken_button))) {
+            showTokenButton.setText(getResources().getString(R.string.showToken_button));
+            tokenText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        }
+    }
+
+    /**
+     * Toggle TTS password text field secure text entry
+     */
+    private void handleShowTTSPassword() {
+        Log.d(TAG, ".handleShowToken() entered");
+        Button showTTSpswd = (Button) findViewById(R.id.showTTSpsd);
+        String buttonTitle = showTTSpswd.getText().toString();
+        //EditText mTTSPASS=(EditText)findViewById(R.id.ttspassword);
+        if (buttonTitle.equals(getResources().getString(R.string.showTTSpsw_button))) {
+            showTTSpswd.setText(getResources().getString(R.string.hideTTSpsw_button));
+            mTTSPASS.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+        } else if (buttonTitle.equals(getResources().getString(R.string.hideTTSpsw_button))) {
+            showTTSpswd.setText(getResources().getString(R.string.showTTSpsw_button));
+            mTTSPASS.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        }
+    }
+
+    /**
+     * Toggle  STT password  text field secure text entry
+     */
+    private void handleShowSTTPassword() {
+        Log.d(TAG, ".handleShowToken() entered");
+        Button showSTTpswd = (Button) findViewById(R.id.showSTTpsd);
+        String buttonTitle = showSTTpswd.getText().toString();
+        // EditText mSTTPASS=(EditText)findViewById(R.id.sttpassword);
+        if (buttonTitle.equals(getResources().getString(R.string.showSTTpsw_button))) {
+            showSTTpswd.setText(getResources().getString(R.string.hideSTTpsw_button));
+            mSTTPASS.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+        } else if (buttonTitle.equals(getResources().getString(R.string.hideSTTpsw_button))) {
+            showSTTpswd.setText(getResources().getString(R.string.showSTTpsw_button));
+            mSTTPASS.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        }
+    }
+
+    public void onCheckboxClicked(View view) {
+        boolean checked = ((CheckBox) view).isChecked();
+        Log.d(TAG, ".onCheckboxClicked() Setting useSSL to " + checked);
+
+        app.setUseSSL(checked);
+    }
+    public void onBackPressed() {
+        Intent startMain = new Intent(Intent.ACTION_MAIN);
+        startMain.addCategory(Intent.CATEGORY_HOME);
+        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(startMain);
+
+    }
+
+}

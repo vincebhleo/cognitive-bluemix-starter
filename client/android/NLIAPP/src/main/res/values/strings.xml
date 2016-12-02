@@ -1,0 +1,134 @@
+<resources>
+  <string name="app_name">Natural Language Interface</string>
+  <string name="translation_label">Translation:</string>
+  <string name="translate">translate</string>
+  <string name="input_hint">enter text</string>
+  <string name="target_language">Target Language</string>
+  <string name="spanish">Spanish</string>
+  <string name="french">French</string>
+  <string name="italian">Italian</string>
+  <string name="microphone">Microphone</string>
+  <string name="play">Play</string>
+
+
+  <string name="action_settings">Settings</string>
+
+  <!-- Generic Strings -->
+  <string name="yes">Yes</string>
+  <string name="no">No</string>
+  <string name="ok">OK</string>
+  <string name="cancel">Cancel</string>
+
+  <!-- Error messages -->
+  <string name="broker_unavailable_check_connectivity">Server is unavailable. Please check your connectivity and try again</string>
+  <string name="exit">Exit</string>
+  <string name="retry">Retry</string>
+
+  <!-- Menu Actions -->
+  <string name="login_label">LOGIN</string>
+  <string name="iot_label">IOT</string>
+  <string name="log_label">LOG</string>
+  <string name="accel_label">Toggle Accel</string>
+  <string name="home_label">Open Home</string>
+  <string name="profiles_label">Open Profiles</string>
+  <string name="web_label">Open Quickstart</string>
+  <string name="clear_profiles_label">Clear Profiles</string>
+  <string name="clear_log_label">Clear Log</string>
+  <string name="tutorial_label">Open Tutorial</string>
+
+  <!-- Begin Login Fragment -->
+  <string name="showToken_button">Show Auth Token</string>
+
+  <string name="showTTSpsw_button">Show TTS Password</string>
+  <string name="showSTTpsw_button">Show STT Password</string>
+  <string name="hideSTTpsw_button">Hide STT Password</string>
+  <string name="hideTTSpsw_button">Hide TTS Password</string>
+  <string name="hideToken_button">Hide Auth Token</string>
+  <string name="useSSL_button">Use SSL</string>
+  <string name="activate_button">Activate NLI</string>
+  <string name="savecredentials_button">Save Credentials</string>
+  <string name="saveCre_button">Save Credentials</string>
+  <string name="deactivate_button">Deactivate NLI</string>
+
+  <string name="device_id">DeviceID: -</string>
+  <string name="is_connected">Connected to IoT: No</string>
+
+  <string name="organization_hint">Organization ID</string>
+  <string name="device_id_hint">Device ID</string>
+  <string name="auth_token_hint">Auth Token</string>
+  <!-- End Login Fragment -->
+
+  <!-- Begin IoT Fragment -->
+  <string name="accel_info">Accelerometer Data</string>
+  <string name="accel_x">x: 0.0</string>
+  <string name="accel_y">y: 0.0</string>
+  <string name="accel_z">z: 0.0</string>
+  <string name="messages_published">Messages Published: 0</string>
+  <string name="messages_received">Messages Received: 0</string>
+  <string name="device_id_iot">Device ID: </string>
+  <string name="device_id_iot_value">Device ID</string>
+  <string name="send_text">Send Text</string>
+  <!-- End IoT Fragment -->
+
+  <!-- Begin Settings Activity -->
+  <string name="organization_setting">Organization: </string>
+  <string name="device_id_setting">Device ID: </string>
+  <string name="auth_token_setting">Auth Token: </string>
+
+  <string name="organization_value">Organization</string>
+  <string name="device_id_value">Device ID</string>
+  <string name="auth_token_value">Auth Token</string>
+
+  <string name="save_button">Save Settings</string>
+
+  <!-- End Settings Activity -->
+
+  <!-- Profiles activity dialog -->
+  <string name="save_dialog_title">Save Profile</string>
+  <string name="save_dialog_text">Enter a name for the profile.</string>
+  <string name="save_dialog_ok">Save</string>
+
+  <string name="profile_exists_title">Profile Name Exists</string>
+  <string name="profile_exists_text">The profile name you have entered already exists. Overwrite?</string>
+  <!-- End Properties activity dialog -->
+
+  <string name="alert_dialog_title">Received Alert</string>
+
+  <!-- IoT Fragment dialog -->
+  <string name="send_text_title">Send Text Message</string>
+  <string name="send_text_text">Input message text to send.</string>
+  <string name="send_text_invalid">Text messages are disabled while connected to QuickStart.</string>
+  <!-- End IoT Fragment dialog -->
+
+  <!-- Login Fragment dialog -->
+  <string name="connect_props_title">Unable to connect</string>
+  <string name="connect_props_text">Organization ID, Device ID and Auth Token must be set in order to connect.</string>
+
+  <string name="connect_conversation_props_text">STT Username, STT Password,and TTS Username, TTS Password must be set in order to connect.</string>
+
+
+  <string name="edit_conversation_props_text">Organization ID, Device ID ,Auth Token,STT Username, STT Password,and TTS Username, TTS Password must be set in order to connect.</string>
+
+  <!-- End Login Fragment dialog -->
+
+  <!-- Tutorial Strings -->
+  <string name="skip_tutorial_label">Skip Tutorial</string>
+  <string name="finish_tutorial_label">Lets get started...</string>
+  <string name="swipe_tutorial_label">Swipe to continue</string>
+  <string name="tutorial_pageA_title">Welcome to IoT Starter</string>
+  <string name="tutorial_pageA_text">The IBM Watson Internet of Things Platform is a fully managed, cloud-hosted service that is designed to simplify and derive the value from your IoT devices.</string>
+  <string name="tutorial_pageB_title">How it works</string>
+  <string name="tutorial_pageB_text">There are two ways to connect your device to the IBM Watson IoT Platform.\n1. Connect to Quickstart.\n2. Connect to your organization.</string>
+  <string name="tutorial_pageC_title">What to do</string>
+  <string name="tutorial_pageC1_title">Option 1: Connect to Quickstart</string>
+  <string name="tutorial_pageC1_text">Step 1: Enter \'quickstart\' for Organization\nStep 2: Enter a valid MAC Address for Device ID\nStep 3: Press \'Activate Sensor\'</string>
+  <string name="tutorial_pageC2_title">Option 2: Connect to your IoT Organization</string>
+  <string name="tutorial_pageC2_text">Step 1: Register a device of type \'Android\'\nStep 2: Enter your IoT Device Credentials\nStep 3: Press \'Activate Sensor\'</string>
+  <!--string name="tutorial_pageC2_text">Step 1: Enter your IoT organization ID\nStep 2: Enter your device ID\nStep 3: Enter your Authorization Token</string-->
+  <!-- End Tutorial Strings -->
+
+
+
+
+
+</resources>
