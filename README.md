@@ -42,4 +42,15 @@ When you click the button, you will be taken to Bluemix. The name of the applica
 
 It will automatically create an instance of the defined services above, named as `cognitive-service-name` and binded to your app. If you deploy multiple instances this repository, they will share the one instance of the different services.
 
+### Modifying the app
+
+After you have the app deployed and running, you can explore the source files and make changes. Try the following:
+
+* Modify the app logic in [Node-RED through the flow editor][node-red]
+* Modify the app logic in Node.js by editing .js files
+* Modify the .html file to change the appearance of the app page
+* Use the [Conversation tool to train the service][train_conversation] for new intents and entities, or to modify the dialog flow.
+
 [sign_up]: https://console.ng.bluemix.net/registration/
+[node-red]: https://github.com/vincebhleo/cognitive-bluemix-starter/tree/master/defaults#cognitive-node-red-flow
+[train_conversation]: https://github.com/vincebhleo/cognitive-bluemix-starter/tree/master/training#training-the-conversation-workspace
