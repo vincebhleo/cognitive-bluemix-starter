@@ -5,7 +5,7 @@ $(document).ready(function() {
     } else {
       $('input:radio[id=nodeRed]').prop('checked', true);
     }
-    $('#platformDropdown').html($(this).html());
+    $('#platformDropdown').html($(this).html() + '<span class="caret"></span>');
   });
 
   //var isConnecting = false;
