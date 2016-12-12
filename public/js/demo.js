@@ -1,5 +1,13 @@
 $(document).ready(function() {
-  
+  $('.dropdown-menu').on( 'click', 'a', function() {    
+    if ($(this).html() == "Node.js") {
+      $('input:radio[id=nodeJs]').prop('checked', true);
+    } else {
+      $('input:radio[id=nodeRed]').prop('checked', true);
+    }
+    $('#platformDropdown').html($(this).html());
+  });
+
   //var isConnecting = false;
   var self = this;
   var stream = null;

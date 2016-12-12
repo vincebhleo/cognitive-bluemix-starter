@@ -6,10 +6,10 @@
 
 .header{
 	color:#0d3551;
-	font-size:2em;
+	font-size: 2em;
 	text-align:center;
-	height:5%;
-	padding-bottom:5px;
+	#height:40px;
+	#padding-bottom:5px;
 }
 
 html, body {
@@ -17,6 +17,8 @@ html, body {
    margin: 0;
    background-size: 350px;
    background-attachment: fixed;
+   font-size: 12px;
+   
 }
 
 .main-container{
@@ -27,12 +29,13 @@ html, body {
 }
 
 .expander {
-   float:right;
-   z-index:2;
-   position: relative;
-   margin: 0 auto;
+   #float:right;
+   #z-index:2;
+   #position: relative;
+   #margin: 0 auto;
    background: #ffffff;
-   width: 700px;
+   #width: 700px;
+   #width: 100%;
    height: 100%;
    padding-bottom: 2px;
    -webkit-transition: width 0.3s ease;
@@ -61,24 +64,26 @@ html, body {
 
 
 .wrapper {
-   z-index: 2;
-   position: absolute;
+   #z-index: 2;
+   #position: absolute;
    background: #ffffff;
    border-left: solid 1px #e6e6e6;
    border-right: solid 1px #e6e6e6;
-   width: 700px;
-   float: left;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+   height: 100%;
+   #width: 700px;
+   #float: left;
+    #top: 0;
+    #right: 0;
+    #bottom: 0;
+    #left: 0;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
 .receipt_wrapper {
-   z-index:1;
-   position: relative;
-   margin: 0 auto;
-   width: 700px;
+   #z-index:1;
+   #position: relative;
+   #margin: 0 auto;
+   #width: 700px;
    height: 100%;
    padding-bottom: 2px;
    -webkit-transition: width 0.3s ease;
@@ -96,12 +101,18 @@ html, body {
    overflow-y: scroll;
    padding: 0;
    margin: 0;
-	 height: 89%;
+	 height: 88%;
 	 width:100%;
-	 position: absolute;
+	 #position: absolute;
 	 background-color:#ffffff;
 }
 
+.col-centered{
+    float: none;
+    margin: 0 auto;
+    margin-bottom: 0;
+    padding: 0;
+}
 
 .chat-box--item_YOU{
 	text-align:right;
@@ -133,15 +144,25 @@ h3{
 	color:#0d3551;
 }
 
-#platform-div {
-  margin-left: 500px;
-  height: 25px;
-  position: absolute;
-  bottom: 0;
+.actions  {
+  #margin-left: 500px;
+  height: 30px;
+  #position: absolute;
+  #bottom: 0;
+  padding: 3px;
+  #background-color: red;
+  #padding-left: 15px;
+}
+
+#platformDropdown {
+  #margin-left: 15px;
 }
 
 .platform {   
-	font-size: 12px;  
+	font-size: 12px; 
+  margin-top: 10px;
+  top: 5px;
+  position: relative;
 }
 
 .platform-label{
@@ -150,32 +171,42 @@ h3{
   font-size: 14px;
   vertical-align: middle;
 	font-weight: normal;  
+  margin-top: 5px;
 }
 
 .platform-link{
   font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
-  margin-right: 4px;
+  margin-right: 10px;
   font-size: 14px;  
 	font-weight: normal;  
   cursor: pointer;
+  top: 3px;
+  position: relative;
+}
+
+.dropdown-menu {
+  min-width: 120px;
 }
 
 #chat-input{
 	position: absolute;
-	height: 4%;
-	bottom:0;
-	padding:5px;
-	width: 490px;
+	#height: 4%;
+	bottom: 0;
+	#padding:5px;
+	width: 96%;
+  #margin-top: 8px;
+  left: 15px;
+  #margin-bottom: 0;
 }
 
 .chat-window--microphone-button {
-	height: 5%;
-	bottom:0;
+	#height: 5%;
+	#bottom:0;
   width: 35px;
   cursor: pointer;
   background-color: #00B2EF;
-  position: absolute; /* this is a hack, but it gets the job done */
-  right: 0;
+  #position: absolute; /* this is a hack, but it gets the job done */
+  #right: 15px;
 }
 
   .chat-window--microphone-button.active {
