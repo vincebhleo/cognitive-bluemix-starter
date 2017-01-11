@@ -5,6 +5,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -96,9 +98,9 @@ public class CustomAdapter extends ArrayAdapter<DataModel> implements View.OnCli
         lastPosition = position;
 
         if (position % 2 == 1) {
-            convertView.setBackgroundResource(R.drawable.bubble_right);
-        } else {
             convertView.setBackgroundResource(R.drawable.bubble_left);
+        } else {
+            convertView.setBackgroundResource(R.drawable.bubble_right);
         }
 
         viewHolder.txtName.setText(dataModel.getName());
