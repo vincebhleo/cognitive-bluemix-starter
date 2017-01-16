@@ -5,11 +5,10 @@
 }
 
 .header{
-	color:#0d3551;
 	font-size: 2em;
 	text-align:center;
-	#height:40px;
-	#padding-bottom:5px;
+	background-color: RGB(45, 204, 211);
+  color: white;
 }
 
 html, body {
@@ -17,15 +16,13 @@ html, body {
    margin: 0;
    background-size: 350px;
    background-attachment: fixed;
-   font-size: 12px;
-   
+   font-size: 12px;   
 }
 
 .main-container{
 	height:100%;
 	margin:1;
 	border:1;
-
 }
 
 .expander {
@@ -40,9 +37,12 @@ html, body {
    padding-bottom: 2px;
    -webkit-transition: width 0.3s ease;
    transition: width 0.3s ease;
-   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+   #box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
+input:focus {
+    outline: none;
+}
 #messages {
 	list-style-type: none;
 	margin: 0;
@@ -64,19 +64,10 @@ html, body {
 
 
 .wrapper {
-   #z-index: 2;
-   #position: absolute;
    background: #ffffff;
    border-left: solid 1px #e6e6e6;
    border-right: solid 1px #e6e6e6;
-   height: 100%;
-   #width: 700px;
-   #float: left;
-    #top: 0;
-    #right: 0;
-    #bottom: 0;
-    #left: 0;
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+   height: 100%;   
 }
 
 .receipt_wrapper {
