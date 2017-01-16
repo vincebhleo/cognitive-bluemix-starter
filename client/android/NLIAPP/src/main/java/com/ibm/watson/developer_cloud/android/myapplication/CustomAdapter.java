@@ -98,9 +98,9 @@ public class CustomAdapter extends ArrayAdapter<DataModel> implements View.OnCli
         lastPosition = position;
 
         if (position % 2 == 1) {
-            convertView.setBackgroundResource(R.drawable.bubble_right);
-        } else {
             convertView.setBackgroundResource(R.drawable.bubble_left);
+        } else {
+            convertView.setBackgroundResource(R.drawable.bubble_right);
         }
 
         viewHolder.txtName.setText(dataModel.getName());

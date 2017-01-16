@@ -40,7 +40,7 @@
         android:layout_width="500dp"
         android:layout_height="55dp"
         android:layout_marginTop="0dp"
-        android:background="#336BFF"
+        android:background="#2DCCD2"
         android:orientation="horizontal">
 
         <TextView
