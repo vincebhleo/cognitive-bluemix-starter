@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -103,6 +104,7 @@ public class ConversationActivity extends AppCompatActivity {
     ImageButton settings;
 
     Handler handler = new Handler();
+    MediaPlayer mp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +116,8 @@ public class ConversationActivity extends AppCompatActivity {
 
         pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = pref.edit();
+
+         mp = MediaPlayer.create(this, R.raw.listening_sound);
 
         cameraHelper = new CameraHelper(this);
         galleryHelper = new GalleryHelper(this);
@@ -175,6 +179,7 @@ public class ConversationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //mic.setEnabled(false);
                 String item = input.getText().toString();
+
             if(input.getText().toString().trim().length() > 0){
 
 
@@ -201,7 +206,7 @@ public class ConversationActivity extends AppCompatActivity {
         mic.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-
+                mp.start();
                 if (listening != true) {
                     capture = new MicrophoneInputStream(true);
                     new Thread(new Runnable() {
