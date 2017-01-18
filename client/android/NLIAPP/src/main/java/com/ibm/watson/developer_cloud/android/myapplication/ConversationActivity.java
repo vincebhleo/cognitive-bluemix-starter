@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -36,10 +37,12 @@ import com.ibm.watson.developer_cloud.android.library.camera.CameraHelper;
 import com.ibm.watson.developer_cloud.android.library.camera.GalleryHelper;
 import com.ibm.watson.developer_cloud.language_translation.v2.LanguageTranslation;
 import com.ibm.watson.developer_cloud.language_translation.v2.model.Language;
-import com.ibm.watson.developer_cloud.speech_to_text.v1.RecognizeOptions;
+
 import com.ibm.watson.developer_cloud.speech_to_text.v1.SpeechToText;
+import com.ibm.watson.developer_cloud.speech_to_text.v1.model.RecognizeOptions;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.model.SpeechResults;
-import com.ibm.watson.developer_cloud.speech_to_text.v1.websocket.RecognizeDelegate;
+
+import com.ibm.watson.developer_cloud.speech_to_text.v1.websocket.RecognizeCallback;
 import com.ibm.watson.developer_cloud.text_to_speech.v1.TextToSpeech;
 import com.ibm.watson.developer_cloud.text_to_speech.v1.model.Voice;
 
@@ -213,8 +216,8 @@ public class ConversationActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             try {
-                                speechService.recognizeUsingWebSockets(capture, getRecognizeOptions(), new MicrophoneRecognizeDelegate());
-
+                               // speechService.recognizeUsingWebSockets(capture, getRecognizeOptions(), new MicrophoneRecognizeDelegate());
+                                speechService.recognizeUsingWebSocket(capture, getRecognizeOptions(), new MicrophoneRecognizeDelegate());
 
                             } catch (Exception e) {
                                 showError(e);
@@ -425,14 +428,15 @@ public class ConversationActivity extends AppCompatActivity {
         return service;
     }
 
+
     private RecognizeOptions getRecognizeOptions() {
-        RecognizeOptions options = new RecognizeOptions();
-        options.continuous(true);
-        options.contentType(ContentType.OPUS.toString());
-        options.model("en-US_BroadbandModel");
-        options.interimResults(true);
-        options.inactivityTimeout(2000);
-        return options;
+        return new RecognizeOptions.Builder()
+                .continuous(true)
+                .contentType(ContentType.OPUS.toString())
+                .model("en-US_BroadbandModel")
+                .interimResults(true)
+                .inactivityTimeout(2000)
+                .build();
     }
 
     private void processIntent(Intent intent) {
@@ -457,12 +461,9 @@ public class ConversationActivity extends AppCompatActivity {
     private abstract class EmptyTextWatcher implements TextWatcher {
         private boolean isEmpty = true; // assumes text is initially empty
 
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
+        @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
             if (s.length() == 0) {
                 isEmpty = true;
                 onEmpty(true);
@@ -472,58 +473,61 @@ public class ConversationActivity extends AppCompatActivity {
             }
         }
 
-        @Override
-        public void afterTextChanged(Editable s) {
-        }
+        @Override public void afterTextChanged(Editable s) {}
 
         public abstract void onEmpty(boolean empty);
     }
 
-    private class MicrophoneRecognizeDelegate implements RecognizeDelegate {
+    private class MicrophoneRecognizeDelegate implements RecognizeCallback {
 
         @Override
-        public void onMessage(SpeechResults speechResults) {
+        public void onTranscription(SpeechResults speechResults) {
             System.out.println(speechResults);
             String text = speechResults.getResults().get(0).getAlternatives().get(0).getTranscript();
             showMicText(text);
         }
 
-        @Override
-        public void onConnected() {
+        @Override public void onConnected() {
 
         }
 
-        @Override
-        public void onError(Exception e) {
-
+        @Override public void onError(Exception e) {
             showError(e);
             enableMicButton();
         }
 
-        @Override
-        public void onDisconnected() {
-
+        @Override public void onDisconnected() {
             enableMicButton();
         }
     }
 
     private class TranslationTask extends AsyncTask<String, Void, String> {
 
-        @Override
-        protected String doInBackground(String... params) {
-            showTranslation(translationService.translate(params[0], Language.ENGLISH, selectedTargetLanguage).getFirstTranslation());
+        @Override protected String doInBackground(String... params) {
+            showTranslation(translationService.translate(params[0], Language.ENGLISH, selectedTargetLanguage).execute().getFirstTranslation());
             return "Did translate";
         }
     }
 
     private class SynthesisTask extends AsyncTask<String, Void, String> {
 
-        @Override
-        protected String doInBackground(String... params) {
-            player.playStream(textService.synthesize(params[0], Voice.EN_LISA));
-            return "Did syntesize";
+        @Override protected String doInBackground(String... params) {
+            player.playStream(textService.synthesize(params[0], Voice.EN_MICHAEL).execute());
+            return "Did synthesize";
         }
     }
+
+   /* @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case CameraHelper.REQUEST_PERMISSION: {
+                // permission granted
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    cameraHelper.dispatchTakePictureIntent();
+                }
+            }
+        }
+    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -536,13 +540,5 @@ public class ConversationActivity extends AppCompatActivity {
         if (requestCode == GalleryHelper.PICK_IMAGE_REQUEST) {
             loadedImage.setImageBitmap(galleryHelper.getBitmap(resultCode, data));
         }
-    }
-
-    public void onBackPressed() {
-        Intent startMain = new Intent(Intent.ACTION_MAIN);
-        startMain.addCategory(Intent.CATEGORY_HOME);
-        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(startMain);
-
     }
 }

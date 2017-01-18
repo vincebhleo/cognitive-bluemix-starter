@@ -16,8 +16,6 @@ android {
     targetSdkVersion 21
     versionCode 1
     versionName "1.0"
-
-    //Enable multidex support
     multiDexEnabled true
   }
   buildTypes {
@@ -46,10 +44,11 @@ dependencies {
   androidTestCompile ('com.android.support.test.espresso:espresso-core:2.2.2') { exclude group: 'com.android.support', module: 'support-annotations' }*/
   compile 'com.android.support:appcompat-v7:23.3.0'
   compile 'com.android.support:multidex:1.0.0'
-  compile 'com.ibm.watson.developer_cloud:java-sdk:2.10.0'
+    compile 'com.ibm.watson.developer_cloud:java-sdk:3.5.3'
     compile files('libs/org.eclipse.paho.android.service.jar')
     compile files('libs/org.eclipse.paho.client.mqttv3.jar')
     compile 'com.google.android.gms:play-services:6.5.87'
+
   compile project(':library')
 
 
