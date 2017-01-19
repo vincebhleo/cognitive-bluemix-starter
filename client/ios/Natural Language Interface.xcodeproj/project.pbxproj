@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		520669641E2E19700013D5C5 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520669631E2E19700013D5C5 /* ThemeManager.swift */; };
+		520669661E2E1FF90013D5C5 /* HexColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520669651E2E1FF90013D5C5 /* HexColor.swift */; };
+		520669691E2E3EF60013D5C5 /* listening_sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 520669681E2E3EF60013D5C5 /* listening_sound.mp3 */; };
 		52099ED31DE2C77500B9B701 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52099ED21DE2C77500B9B701 /* LocationManager.swift */; };
 		52099ED51DE2C7DD00B9B701 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52099ED41DE2C7DD00B9B701 /* CoreLocation.framework */; };
 		52099ED71DE2EBF200B9B701 /* ChatBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52099ED61DE2EBF200B9B701 /* ChatBubble.swift */; };
@@ -54,6 +57,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		520669631E2E19700013D5C5 /* ThemeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
+		520669651E2E1FF90013D5C5 /* HexColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HexColor.swift; sourceTree = "<group>"; };
+		520669681E2E3EF60013D5C5 /* listening_sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = listening_sound.mp3; sourceTree = "<group>"; };
 		52099ED21DE2C77500B9B701 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		52099ED41DE2C7DD00B9B701 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		52099ED61DE2EBF200B9B701 /* ChatBubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatBubble.swift; sourceTree = "<group>"; };
@@ -97,6 +103,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		520669671E2E3EF60013D5C5 /* SoundFiles */ = {
+			isa = PBXGroup;
+			children = (
+				520669681E2E3EF60013D5C5 /* listening_sound.mp3 */,
+			);
+			path = SoundFiles;
+			sourceTree = "<group>";
+		};
 		524061FD1DD9BD0000D13B36 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -125,6 +139,7 @@
 		52ACEC471DD3240300DCBD7B /* Natural Language Interface */ = {
 			isa = PBXGroup;
 			children = (
+				520669671E2E3EF60013D5C5 /* SoundFiles */,
 				524061FD1DD9BD0000D13B36 /* Models */,
 				52ACEC5A1DD3276600DCBD7B /* Views */,
 				52ACEC5B1DD3277400DCBD7B /* Controllers */,
@@ -168,6 +183,8 @@
 				52C578511DD5C52D00D3BCF3 /* AudioPlayManager.swift */,
 				524061F51DD97F8100D13B36 /* CommonUtilityManager.swift */,
 				52099ED21DE2C77500B9B701 /* LocationManager.swift */,
+				520669631E2E19700013D5C5 /* ThemeManager.swift */,
+				520669651E2E1FF90013D5C5 /* HexColor.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -248,6 +265,7 @@
 			files = (
 				5240620C1DD9CA9E00D13B36 /* Settings.bundle in Resources */,
 				524062001DD9BD7700D13B36 /* Main.storyboard in Resources */,
+				520669691E2E3EF60013D5C5 /* listening_sound.mp3 in Resources */,
 				524062031DD9BD8200D13B36 /* LaunchScreen.storyboard in Resources */,
 				52ACEC501DD3240400DCBD7B /* Assets.xcassets in Resources */,
 			);
@@ -262,6 +280,7 @@
 			files = (
 				52ACEC621DD3392300DCBD7B /* WatsonSTTManager.swift in Sources */,
 				52099ED71DE2EBF200B9B701 /* ChatBubble.swift in Sources */,
+				520669641E2E19700013D5C5 /* ThemeManager.swift in Sources */,
 				520AE56B1DD5BC9900B37046 /* WatsonTTSManager.swift in Sources */,
 				52C578541DD5C69200D3BCF3 /* MediaUtils.swift in Sources */,
 				52099ED31DE2C77500B9B701 /* LocationManager.swift in Sources */,
@@ -272,6 +291,7 @@
 				524061F81DD9909200D13B36 /* BaseViewController.swift in Sources */,
 				524062071DD9C8C200D13B36 /* SettingsUtils.swift in Sources */,
 				524061F61DD97F8100D13B36 /* CommonUtilityManager.swift in Sources */,
+				520669661E2E1FF90013D5C5 /* HexColor.swift in Sources */,
 				52ACEC601DD3293600DCBD7B /* Constants.swift in Sources */,
 				52C578561DD5C92100D3BCF3 /* MainViewController.swift in Sources */,
 			);
@@ -396,15 +416,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = Z85852MG3R;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
 				INFOPLIST_FILE = "Natural Language Interface/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ios.nli;
+				PRODUCT_BUNDLE_IDENTIFIER = com.persistent.ibmiot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "f2155b0d-a9e9-4e92-a521-78606bb4de85";
+				PROVISIONING_PROFILE_SPECIFIER = IbmIotPushDemo;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -413,15 +433,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = Z85852MG3R;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
 				INFOPLIST_FILE = "Natural Language Interface/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ios.nli;
+				PRODUCT_BUNDLE_IDENTIFIER = com.persistent.ibmiot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "f2155b0d-a9e9-4e92-a521-78606bb4de85";
+				PROVISIONING_PROFILE_SPECIFIER = IbmIotPushDemo;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

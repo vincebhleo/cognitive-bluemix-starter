@@ -92,9 +92,25 @@ struct Constants
         static let password:String = "watson_tts_password"
     }
     
+    struct themeSettingKeys
+    {
+        static let hexColorCode:String = "theme_hex_color_code"
+        static let title:String = "app_title"
+    }
+    
     struct chatBubbleDimensions
     {
         static let lastChatBubbleY:CGFloat = 10.0
-        static let internalPadding:CGFloat = 8.0
+        static let internalPadding:CGFloat = 25.0
+    }
+    
+    struct colors
+    {
+        static let defaultTheme:String = "2DCCD3"
+    }
+    
+    struct theme
+    {
+        static let defaultTitle:String = "Natural Language Interface"
     }
 }

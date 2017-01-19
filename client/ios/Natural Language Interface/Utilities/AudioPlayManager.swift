@@ -20,6 +20,22 @@ class AudioPlayManager: NSObject, AVAudioPlayerDelegate {
         }
     }
     
+    func playFile(fileName: NSString, type:NSString)
+    {
+        let url = URL.init(fileURLWithPath: Bundle.main.path(
+            forResource: fileName as String,
+            ofType: type as String)!)
+        
+        do {
+            try audioPlayer = AVAudioPlayer(contentsOf: url)
+            audioPlayer?.delegate = self
+            audioPlayer?.prepareToPlay()
+            audioPlayer?.play()
+        } catch let error as NSError {
+            print("audioPlayer error \(error.localizedDescription)")
+        }
+    }
+    
     func playWaveData(data: NSData, fileType: String = "wav", callback: ((Bool) -> Void)? = nil) {
         callbacks.append(callback)
         
@@ -101,8 +117,11 @@ class AudioPlayManager: NSObject, AVAudioPlayerDelegate {
             playWaveDataNow(data: wav)
         }
         
-        if let callback = callbacks.remove(at: 0) {
-            callback(flag)
+        if(callbacks.count > 0)
+        {
+            if let callback = callbacks.remove(at: 0) {
+                callback(flag)
+            }
         }
     }
     

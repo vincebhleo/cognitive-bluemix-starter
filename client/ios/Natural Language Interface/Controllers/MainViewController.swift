@@ -6,8 +6,8 @@
 //  Copyright © 2016 Persistent. All rights reserved.
 //
 
-import UIKit
 import MQTTFramework
+import UIKit
 
 class MainViewController: BaseViewController, watsonSTTDelegate, watsonTTSDelegate, mqttDelegate, UITextFieldDelegate{
 
@@ -20,6 +20,12 @@ class MainViewController: BaseViewController, watsonSTTDelegate, watsonTTSDelega
     var internalPadding: CGFloat = Constants.chatBubbleDimensions.internalPadding
     var lastMessageType: BubbleDataType?
     
+    
+    @IBOutlet weak var headerView: UIView!
+    @IBOutlet weak var logoView: UIView!
+    @IBOutlet weak var titleView: UIView!
+    @IBOutlet weak var titleLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -31,11 +37,16 @@ class MainViewController: BaseViewController, watsonSTTDelegate, watsonTTSDelega
         
         WatsonSTTManager.sharedInstance.delegate = self
         WatsonSTTManager.sharedInstance.readWatsonSTTCreds()
+        WatsonSTTManager.sharedInstance.readCustomSTT()
         WatsonSTTManager.sharedInstance.initSpeechToText()
         
         WatsonTTSManager.sharedInstance.delegate = self
         WatsonTTSManager.sharedInstance.readWatsonTTSCreds()
         WatsonTTSManager.sharedInstance.initTextToSpeech()
+        
+        ThemeManager.sharedInstance.readThemeSettings()
+        self.setThemeColor()
+        self.setTitle()
         
         self.longPressGesture.minimumPressDuration = 0
         
@@ -58,6 +69,7 @@ class MainViewController: BaseViewController, watsonSTTDelegate, watsonTTSDelega
                 self.speakerButton.setImage(UIImage(named:Constants.speakerIconImageNames.speakerIconHighlighted), for: UIControlState.normal)
             }
             WatsonSTTManager.sharedInstance.startMicrophone()
+            audioPlayManager.playFile(fileName: "listening_sound", type: "mp3")
         }
         else if sender.state == .ended {
             print("long tap ended")
@@ -194,5 +206,21 @@ class MainViewController: BaseViewController, watsonSTTDelegate, watsonTTSDelega
                 self.conversationScrollView.setContentOffset(contentOffSet, animated: true)
             }
         }
+    }
+    
+    // MARK: - Theme methods
+    func setThemeColor()
+    {
+        print(ThemeManager.sharedInstance.colorCode)
+        let color:UIColor = UIColor(hexString: ThemeManager.sharedInstance.colorCode)
+        self.headerView.backgroundColor = color
+        self.logoView.backgroundColor = color
+        self.titleView.backgroundColor = color
+        self.speakerButton.backgroundColor = color
+    }
+    
+    func setTitle()
+    {
+        self.titleLabel.text = ThemeManager.sharedInstance.title
     }
 }
