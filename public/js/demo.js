@@ -11,7 +11,7 @@ $(document).ready(function() {
   //var isConnecting = false;
   var self = this;
   var stream = null;
-	$('#messages').append($('<li>').text(""));
+	//$('#messages').append($('<li>').text(""));
   
   $("div").animate({scrollTop: $('ul#messages li:last').offset().top + 1000});
   var audioElement = null;
