@@ -12,6 +12,8 @@ $(document).ready(function() {
   var self = this;
   var stream = null;
 	$('#messages').append($('<li>').text(""));
+  
+  $("div").animate({scrollTop: $('ul#messages li:last').offset().top + 1000});
   var audioElement = null;
 
   $( "#node-red-label" ).click(function() {
