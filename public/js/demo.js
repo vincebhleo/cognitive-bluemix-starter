@@ -13,7 +13,6 @@ $(document).ready(function() {
   var stream = null;
 	//$('#messages').append($('<li>').text(""));
   
-  $("div").animate({scrollTop: $('ul#messages li:last').offset().top + 1000});
   var audioElement = null;
 
   $( "#node-red-label" ).click(function() {
@@ -159,6 +158,7 @@ $(document).ready(function() {
 			var msg = $('#chat-input').val();
 			console.log("payload : " + payload);
 			$('#messages').append($('<li>').text(msg));
+      $("div").animate({scrollTop: $('ul#messages li:last').offset().top + 1000});
 			$('#chat-input').val('');         
                  
 			$.post({
