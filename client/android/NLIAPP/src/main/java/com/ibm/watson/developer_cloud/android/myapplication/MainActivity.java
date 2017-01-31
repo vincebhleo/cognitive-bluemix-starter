@@ -169,8 +169,7 @@ public class MainActivity extends Activity {
 
         public void onClick(View v)
         {
-            Toast.makeText(app.getBaseContext(), "This is my Toast message!",
-                    Toast.LENGTH_LONG).show();
+           
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
             photoPickerIntent.setType("image/*");
             startActivityForResult(photoPickerIntent, SELECT_PHOTO);
