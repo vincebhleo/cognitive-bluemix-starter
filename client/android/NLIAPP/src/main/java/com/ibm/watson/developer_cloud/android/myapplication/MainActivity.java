@@ -169,7 +169,6 @@ public class MainActivity extends Activity {
 
         public void onClick(View v)
         {
-           
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
             photoPickerIntent.setType("image/*");
             startActivityForResult(photoPickerIntent, SELECT_PHOTO);
