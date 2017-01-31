@@ -24,8 +24,6 @@ import android.location.Location;
 import android.os.Build;
 import android.util.Log;
 
-
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -62,6 +60,10 @@ public class IoTStarterApplication extends Application {
     private String deviceType;
     private String deviceId;
     private String authToken;
+    private String hexcolor;
+    private String titleApp;
+    private String logoUri;
+
     private Constants.ConnectionType connectionType;
     private boolean useSSL = false;
 
@@ -334,6 +336,29 @@ public class IoTStarterApplication extends Application {
 
     public void setPayload(String payload) {
         this.payload = payload;
+    }
+
+
+    public String getmHexcolor() {
+        return hexcolor;
+    }
+
+    public void setmHexcolor(String hexcolor) {
+        this.hexcolor = hexcolor;
+    }
+    public String getmTitle() {
+        return titleApp;
+    }
+
+    public void setmTitle(String titleApp) {
+        this.titleApp = titleApp;
+    }
+    public String getmlogoUri() {
+        return logoUri;
+    }
+
+    public void setmlogoUri(String logoUri) {
+        this.logoUri = logoUri;
     }
 
 

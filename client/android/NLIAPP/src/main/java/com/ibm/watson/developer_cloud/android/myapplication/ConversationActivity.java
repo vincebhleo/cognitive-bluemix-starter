@@ -7,8 +7,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,6 +30,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,21 +41,20 @@ import com.ibm.watson.developer_cloud.android.library.camera.CameraHelper;
 import com.ibm.watson.developer_cloud.android.library.camera.GalleryHelper;
 import com.ibm.watson.developer_cloud.language_translation.v2.LanguageTranslation;
 import com.ibm.watson.developer_cloud.language_translation.v2.model.Language;
-
 import com.ibm.watson.developer_cloud.speech_to_text.v1.SpeechToText;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.model.RecognizeOptions;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.model.SpeechResults;
-
 import com.ibm.watson.developer_cloud.speech_to_text.v1.websocket.RecognizeCallback;
 import com.ibm.watson.developer_cloud.text_to_speech.v1.TextToSpeech;
 import com.ibm.watson.developer_cloud.text_to_speech.v1.model.Voice;
 
 import org.eclipse.paho.client.mqttv3.MqttException;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import app.IoTStarterApplication;
-
 import iot.IoTClient;
 import utils.Constants;
 import utils.MessageFactory;
@@ -105,10 +108,13 @@ public class ConversationActivity extends AppCompatActivity {
     SharedPreferences pref;
     SharedPreferences.Editor editor;
     ImageButton settings;
-
+    String hexcolor,title;
+    String logouri;
     Handler handler = new Handler();
     MediaPlayer mp;
-
+    ImageView imageView;
+    Uri path;
+    Bitmap yourSelectedImage1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,8 +125,52 @@ public class ConversationActivity extends AppCompatActivity {
 
         pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = pref.edit();
+        hexcolor=pref.getString("hexcolor", null);
+        title=pref.getString("title",null);
+        logouri=pref.getString("logouri",null);
+        if(logouri!=null&&!logouri.isEmpty()){
 
-         mp = MediaPlayer.create(this, R.raw.listening_sound);
+             path=Uri.parse(logouri);
+            InputStream imageStream1 = null;
+            try {
+                imageStream1 = getContentResolver().openInputStream(path);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+             yourSelectedImage1 = BitmapFactory.decodeStream(imageStream1);
+        }
+
+
+        imageView=(ImageView)findViewById(R.id.logo);
+        TextView titleView=(TextView)findViewById(R.id.titleapp);
+        RelativeLayout relativeLayout=(RelativeLayout)findViewById(R.id.topbar);
+        ImageButton ib=(ImageButton)findViewById(R.id.mic);
+        try{
+
+            if(logouri!=null&&!logouri.isEmpty()){
+
+                imageView.setImageBitmap(yourSelectedImage1);
+            }else{
+                imageView.setBackgroundResource(R.drawable.logo);
+            }
+
+            if(title!=null&&!title.isEmpty()){
+
+                titleView.setText(title);
+            }else{
+                titleView.setText("Natural Language Interface");
+            }
+
+
+            relativeLayout.setBackgroundColor(Color.parseColor(hexcolor));
+
+            ib.setBackgroundColor(Color.parseColor(hexcolor));
+        }catch (StringIndexOutOfBoundsException e){
+            e.printStackTrace();
+        }
+
+
+        mp = MediaPlayer.create(this, R.raw.listening_sound);
 
         cameraHelper = new CameraHelper(this);
         galleryHelper = new GalleryHelper(this);
@@ -149,14 +199,13 @@ public class ConversationActivity extends AppCompatActivity {
 
                 try {
 
-
                     MyIoTActionListener listener = new MyIoTActionListener(ConversationActivity.this, Constants.ActionStateStatus.PUBLISH);
                     IoTClient iotClient = IoTClient.getInstance(ConversationActivity.this);
                     iotClient.disconnectDevice(listener);
                 } catch (MqttException e) {
                 }
               //  pref.edit().clear().commit();
-                Intent i = new Intent(ConversationActivity.this, settings.class);
+                Intent i = new Intent(ConversationActivity.this, com.ibm.watson.developer_cloud.android.myapplication.settings.class);
                 startActivity(i);
 
 

@@ -25,6 +25,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.InputType;
@@ -33,12 +37,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.security.ProviderInstaller;
 
 import org.eclipse.paho.client.mqttv3.MqttException;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.security.KeyStore;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -57,7 +66,7 @@ import utils.MyIoTActionListener;
 
 public class MainActivity extends Activity {
     private final String TAG = "MainActivity";
-    EditText mSTTUSR, mSTTPASS, mTTSUSR, mTTSPASS;
+    EditText mSTTUSR, mSTTPASS, mTTSUSR, mTTSPASS,hexColor,titleApp;
     private IoTStarterApplication app;
     private BroadcastReceiver broadcastReceiver;
     AppInfo mAPPinfo = AppInfo.getInstance();
@@ -67,32 +76,82 @@ public class MainActivity extends Activity {
     SharedPreferences.Editor editor;
     String morganization, mDeviceid, mAuthToken;
     ProgressDialog pd;
-    String mSTTunm,mSTTpwd,mTTSunm,mTTSpwd;
-
+    String mSTTunm,mSTTpwd,mTTSunm,mTTSpwd,hexcolor,title;
+    ImageButton imageButton;
+    String logouri;
+    private static final int SELECT_PHOTO = 100;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-
+        System.out.println("123456");
         app = (IoTStarterApplication) this.getApplication();
         app.setCurrentRunningActivity(TAG);
         pd = new ProgressDialog(this);
         pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = pref.edit();
 
-        morganization = pref.getString("organization", null);
-        mDeviceid = pref.getString("deviceid", null);
-        mAuthToken = pref.getString("authtoken", null);
+            morganization = pref.getString("organization", null);
+            mDeviceid = pref.getString("deviceid", null);
+            mAuthToken = pref.getString("authtoken", null);
 
-        mSTTunm=pref.getString("STTUSERNM", null);
-        mSTTpwd=pref.getString("STTPASS", null);
-        mTTSunm=pref.getString("TTSUSRNM", null);
-        mTTSpwd=pref.getString("TTSPSS", null);
+            mSTTunm = pref.getString("STTUSERNM", null);
+            mSTTpwd = pref.getString("STTPASS", null);
+            mTTSunm = pref.getString("TTSUSRNM", null);
+            mTTSpwd = pref.getString("TTSPSS", null);
+            hexcolor = pref.getString("hexcolor", null);
+            title = pref.getString("title", null);
+            logouri=pref.getString("logouri", null);
+
+
+        if(hexcolor==null || hexcolor.isEmpty())
+        {
+            hexcolor="#2DCCD2";
+        }
+        if(title==null || title.isEmpty())
+        {
+            title="Natural Language Interface";
+        }
+        imageButton=(ImageButton)findViewById(R.id.logobutton);
+
+        imageButton.setOnClickListener(imgButtonHandler);
+        if(logouri==null)
+        {
+            Uri path=Uri.parse("android.resource://com.ibm.watson.developer_cloud.android.myapplication/"+R.drawable.logo);
+            logouri=path.toString();
+            InputStream imageStream1 = null;
+            try {
+                imageStream1 = getContentResolver().openInputStream(path);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            Bitmap yourSelectedImage1 = BitmapFactory.decodeStream(imageStream1);
+            imageButton.setImageBitmap(yourSelectedImage1);
+            editor.putString("logouri",path.toString());
+        }
+        else
+        {
+            Uri image =Uri.parse(logouri);
+            InputStream imageStream1 = null;
+            try {
+                imageStream1 = getContentResolver().openInputStream(image);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            Bitmap yourSelectedImage1 = BitmapFactory.decodeStream(imageStream1);
+            imageButton.setImageBitmap(yourSelectedImage1);
+
+        }
+
+        Button activate=(Button)findViewById(R.id.activateButton);
+        activate.setBackgroundColor(Color.parseColor(hexcolor));
+        RelativeLayout relativeLayout=(RelativeLayout)findViewById(R.id.topbar);
+        relativeLayout.setBackgroundColor(Color.parseColor(hexcolor));
 
         /**
          * checking the credentials if saved directly move into chat page.
          */
-
+        //System.out.println("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW");
         if (morganization != null && !morganization.isEmpty() && mDeviceid != null && !mDeviceid.isEmpty() && mAuthToken != null && !mAuthToken.isEmpty()) {
             pd.setMessage("Connecting to conversation ....");
             pd.show();
@@ -106,6 +165,41 @@ public class MainActivity extends Activity {
 
     }
 
+    View.OnClickListener imgButtonHandler=new View.OnClickListener(){
+
+        public void onClick(View v)
+        {
+            Toast.makeText(app.getBaseContext(), "This is my Toast message!",
+                    Toast.LENGTH_LONG).show();
+            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+            photoPickerIntent.setType("image/*");
+            startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+        }
+    };
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+
+        switch(requestCode) {
+            case SELECT_PHOTO:
+                if(resultCode == RESULT_OK){
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    InputStream imageStream = null;
+                    try {
+                        imageStream = getContentResolver().openInputStream(selectedImage);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    Bitmap yourSelectedImage = BitmapFactory.decodeStream(imageStream);
+                    ImageButton temp=(ImageButton)findViewById(R.id.logobutton);
+                    temp.setImageBitmap(yourSelectedImage);
+                    Toast.makeText(app.getBaseContext(), selectedImage.toString(),
+                            Toast.LENGTH_LONG).show();
+                    app.setmlogoUri(selectedImage.toString());
+                    editor.putString("logouri",selectedImage.toString());
+                }
+        }
+    }
     /**
      * Called when the fragment is resumed.
      */
@@ -116,6 +210,7 @@ public class MainActivity extends Activity {
         super.onResume();
         app = (IoTStarterApplication) this.getApplication();
         app.setCurrentRunningActivity(TAG);
+
 
         if (broadcastReceiver == null) {
             Log.d(TAG, ".onResume() - Registering loginBroadcastReceiver");
@@ -182,6 +277,13 @@ public class MainActivity extends Activity {
         if (app.getmSTTpassword() != null) {
             ((EditText) findViewById(R.id.sttpassword)).setText(app.getmSTTpassword());
         }
+        if (app.getmHexcolor() != null) {
+            ((EditText) findViewById(R.id.hexcolor)).setText(app.getmHexcolor());
+        }
+        if (app.getmTitle() != null) {
+            ((EditText) findViewById(R.id.title_app)).setText(app.getmTitle());
+        }
+
 
         // Set 'Connected to IoT' to Yes if MQTT client is connected. Leave as No otherwise.
         if (app.isConnected()) {
@@ -199,6 +301,11 @@ public class MainActivity extends Activity {
         mSTTPASS = (EditText) findViewById(R.id.sttpassword);
         mTTSUSR = (EditText) findViewById(R.id.ttsusername);
         mTTSPASS = (EditText) findViewById(R.id.ttspassword);
+        hexColor = (EditText) findViewById(R.id.hexcolor);
+        titleApp=(EditText)findViewById(R.id.title_app);
+
+
+
         Button showTTSpswd = (Button) findViewById(R.id.showTTSpsd);
 
         showTTSpswd.setOnClickListener(new View.OnClickListener() {
@@ -229,16 +336,17 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 processDisconnectIntent();
                 if (mTTSUSR.getText().toString().trim().length() > 0 & mTTSPASS.getText().toString().trim().length() > 0 & mSTTUSR.getText().toString().trim().length() > 0 & mSTTPASS.getText().toString().trim().length() > 0) {
-
                     app.setmSTTusername( mSTTUSR.getText().toString());
                     app.setmSTTpassword(mSTTPASS.getText().toString());
                     app.setmTTSusername(mTTSUSR.getText().toString());
                     app.setmTTSpassword(mTTSPASS.getText().toString());
+                    app.setmHexcolor(hexColor.getText().toString());
+                    app.setmTitle(titleApp.getText().toString());
+
                     handleActivate();
-
-                } else {
+                }
+                else {
                     displayconversationSetPropertiesDialog();
-
                 }
 
             }
@@ -274,6 +382,10 @@ public class MainActivity extends Activity {
         editor.putString("STTPASS", ((EditText) findViewById(R.id.sttpassword)).getText().toString());
         editor.putString("TTSUSRNM", ((EditText) findViewById(R.id.ttsusername)).getText().toString());
         editor.putString("TTSPSS", ((EditText) findViewById(R.id.ttspassword)).getText().toString());
+        editor.putString("hexcolor", ((EditText) findViewById(R.id.hexcolor)).getText().toString());
+        editor.putString("title", ((EditText) findViewById(R.id.title_app)).getText().toString());
+
+
         editor.commit();
 
         IoTClient iotClient = IoTClient.getInstance(this, app.getOrganization(), app.getDeviceId(), app.getDeviceType(), app.getAuthToken());
@@ -339,6 +451,8 @@ public class MainActivity extends Activity {
         app.setmSTTpassword(mSTTpwd);
         app.setmTTSusername(mTTSunm);
         app.setmTTSpassword(mTTSpwd);
+        app.setmHexcolor(hexcolor);
+        app.setmTitle(title);
 
         IoTClient iotClient = IoTClient.getInstance(this, app.getOrganization(), app.getDeviceId(), app.getDeviceType(), app.getAuthToken());
         activateButton.setEnabled(false);

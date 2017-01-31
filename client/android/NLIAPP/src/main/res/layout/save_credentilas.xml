@@ -16,6 +16,10 @@
 *    Mike Robertson - initial contribution
 *******************************************************************************/
 -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
 
@@ -40,7 +44,7 @@
     <RelativeLayout
         android:layout_width="500dp"
         android:orientation="horizontal"
-        android:id="@+id/topbar"
+        android:id="@+id/topbar1"
         android:layout_marginTop="0dp"
         android:background="#2DCCD2"
         android:layout_height="55dp">
@@ -194,6 +198,53 @@
         android:layout_gravity="center|bottom"
         android:text="@string/showTTSpsw_button"
         android:id="@+id/showTTSpsd"/>
+    <EditText
+        style="@style/MyActionBarTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingTop="@dimen/activity_setting_margin"
+        android:paddingBottom="@dimen/activity_setting_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:hint="Hex Color"
+        android:textColor="@color/black"
+        android:inputType="textNoSuggestions"
+        android:id="@+id/hexcolor"
+        />
+    <EditText
+        style="@style/MyActionBarTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingTop="@dimen/activity_setting_margin"
+        android:paddingBottom="@dimen/activity_setting_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:hint="Title"
+        android:textColor="@color/black"
+        android:inputType="textNoSuggestions"
+        android:id="@+id/titleAppSettings"
+        />
+
+    <ImageButton
+        style="@style/MyActionBarTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingTop="@dimen/activity_setting_margin"
+        android:paddingBottom="@dimen/activity_setting_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+
+        android:id="@+id/logobuttonsetting"
+        android:src="@drawable/logo"
+        />
+
+
     <TextView
         style="@style/MyActionBarTitleText"
         android:layout_width="wrap_content"
@@ -218,6 +269,6 @@
         android:layout_gravity="center|bottom"
         android:text="Save Credentials"
         android:textColor="@color/white"
-        android:id="@+id/activateButton"/>
+        android:id="@+id/activateButton1"/>
 </LinearLayout>
-
+</ScrollView>

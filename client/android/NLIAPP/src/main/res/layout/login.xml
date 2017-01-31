@@ -15,6 +15,10 @@
 *    Mike Robertson - initial contribution
 *******************************************************************************/
 -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
 
@@ -189,7 +193,50 @@
         style="@style/SmallButton"
         android:layout_gravity="center|bottom"
         android:text="@string/showTTSpsw_button" />
+    <EditText
+        style="@style/MyActionBarTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingTop="@dimen/activity_setting_margin"
+        android:paddingBottom="@dimen/activity_setting_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:hint="Hex Color"
+        android:textColor="@color/black"
+        android:inputType="textNoSuggestions"
+        android:id="@+id/hexcolor"
+        />
+    <EditText
+        style="@style/MyActionBarTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingTop="@dimen/activity_setting_margin"
+        android:paddingBottom="@dimen/activity_setting_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:hint="Title"
+        android:textColor="@color/black"
+        android:inputType="textNoSuggestions"
+        android:id="@+id/title_app"
+        />
+    <ImageButton
+        style="@style/MyActionBarTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingTop="@dimen/activity_setting_margin"
+        android:paddingBottom="@dimen/activity_setting_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
 
+        android:id="@+id/logobutton"
+        android:src="@drawable/logo"
+        />
     <TextView
         android:id="@+id/isConnected"
         style="@style/MyActionBarTitleText"
@@ -217,3 +264,4 @@
         android:textColor="@color/white" />
 </LinearLayout>
 
+</ScrollView>
