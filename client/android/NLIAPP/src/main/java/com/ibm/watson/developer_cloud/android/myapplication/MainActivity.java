@@ -149,9 +149,9 @@ public class MainActivity extends Activity {
         relativeLayout.setBackgroundColor(Color.parseColor(hexcolor));
 
         /**
-         * checking the credentials if saved directly move into chat page.
+         * checking the credentials if saved directly move into conversation screen.
          */
-        //System.out.println("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW");
+
         if (morganization != null && !morganization.isEmpty() && mDeviceid != null && !mDeviceid.isEmpty() && mAuthToken != null && !mAuthToken.isEmpty()) {
             pd.setMessage("Connecting to conversation ....");
             pd.show();
