@@ -18,9 +18,9 @@ struct SettingsUtils {
                 if let buildnum = appInfo["CFBundleVersion"] as? String {
                     
                     let defaults = UserDefaults.standard
-                    defaults.set(version, forKey: "application_version")
-                    defaults.set(buildnum, forKey: "application_buildnum")
-                    defaults.synchronize()
+                    defaults.set(version, forKey: Constants.buildSettingKeys.version)
+                    defaults.set(buildnum, forKey: Constants.buildSettingKeys.buildNo)
+                    //defaults.synchronize()
                 }
             }
         }
@@ -87,6 +87,71 @@ struct SettingsUtils {
         }
         print("getArrayOfPreferencesFromRootPlist: Unable to get settings, is there a Root.plist?")
         return []
+    }
+    
+    static func initSettings()
+    {
+        let prefs = UserDefaults.standard
+        
+        // Watson STT
+        if (prefs.value(forKey: Constants.watsonSTTSettingKeys.username) == nil)
+        {
+            prefs.setValue("", forKey: Constants.watsonSTTSettingKeys.username)
+        }
+        if (prefs.value(forKey: Constants.watsonSTTSettingKeys.password) == nil)
+        {
+            prefs.setValue("", forKey: Constants.watsonSTTSettingKeys.password)
+        }
+        if (prefs.value(forKey: Constants.watsonSTTSettingKeys.customSttPreference) == nil)
+        {
+            prefs.set(false, forKey: Constants.watsonSTTSettingKeys.customSttPreference)
+        }
+        if (prefs.value(forKey: Constants.watsonSTTSettingKeys.customizationId) == nil)
+        {
+            prefs.setValue("", forKey: Constants.watsonSTTSettingKeys.customizationId)
+        }
+        
+        // Watson TTS
+        if (prefs.value(forKey: Constants.watsonTTSSettingKeys.username) == nil)
+        {
+            prefs.setValue("", forKey: Constants.watsonTTSSettingKeys.username)
+        }
+        if (prefs.value(forKey: Constants.watsonTTSSettingKeys.password) == nil)
+        {
+            prefs.setValue("", forKey: Constants.watsonTTSSettingKeys.password)
+        }
+        
+        // Watson IOT
+        if (prefs.value(forKey: Constants.mqttConfigSettingKeys.orgId) == nil)
+        {
+            prefs.setValue("", forKey: Constants.mqttConfigSettingKeys.orgId)
+        }
+        if (prefs.value(forKey: Constants.mqttConfigSettingKeys.deviceType) == nil)
+        {
+            prefs.setValue("", forKey: Constants.mqttConfigSettingKeys.deviceType)
+        }
+        if (prefs.value(forKey: Constants.mqttConfigSettingKeys.deviceId) == nil)
+        {
+            prefs.setValue("", forKey: Constants.mqttConfigSettingKeys.deviceId)
+        }
+        if (prefs.value(forKey: Constants.mqttConfigSettingKeys.password) == nil)
+        {
+            prefs.setValue("", forKey: Constants.mqttConfigSettingKeys.password)
+        }
+        
+        
+        // Theme
+        if (prefs.value(forKey: Constants.themeSettingKeys.hexColorCode) == nil)
+        {
+            prefs.setValue(Constants.colors.defaultTheme, forKey: Constants.themeSettingKeys.hexColorCode)
+        }
+        if (prefs.value(forKey: Constants.themeSettingKeys.title) == nil)
+        {
+            prefs.setValue(Constants.theme.defaultTitle, forKey: Constants.themeSettingKeys.title)
+        }
+        
+        // About
+        SettingsUtils.putVersionAndBuildnumInSettings()
     }
 
 }

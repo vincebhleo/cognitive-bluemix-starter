@@ -19,18 +19,25 @@ class MainViewController: BaseViewController, watsonSTTDelegate, watsonTTSDelega
     var lastChatBubbleY: CGFloat = Constants.chatBubbleDimensions.lastChatBubbleY
     var internalPadding: CGFloat = Constants.chatBubbleDimensions.internalPadding
     var lastMessageType: BubbleDataType?
-    
-    
+        
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var logoView: UIView!
     @IBOutlet weak var titleView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var logoImageView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         LocationManager.sharedInstance.startUpdatingLocation()
+        self.longPressGesture.minimumPressDuration = 0
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         MQTTManager.sharedInstance.delegate = self
         MQTTManager.sharedInstance.readMQTTConfig()
         MQTTManager.sharedInstance.initMQTT()
@@ -47,8 +54,7 @@ class MainViewController: BaseViewController, watsonSTTDelegate, watsonTTSDelega
         ThemeManager.sharedInstance.readThemeSettings()
         self.setThemeColor()
         self.setTitle()
-        
-        self.longPressGesture.minimumPressDuration = 0
+        self.setLogo()
         
         self.isConfigSet()
     }
@@ -141,6 +147,10 @@ class MainViewController: BaseViewController, watsonSTTDelegate, watsonTTSDelega
         {
             message += Constants.errorMessages.watsonSTTConfigIncomplete
         }
+        if(WatsonSTTManager.sharedInstance.isWatsonSTTCustomConfigIncomplete)
+        {
+            message += Constants.errorMessages.watsonSTTCustomConfigIncomplete
+        }
         if(WatsonTTSManager.sharedInstance.isWatsonTTSConfigIncomplete)
         {
             if(message != "")
@@ -222,5 +232,10 @@ class MainViewController: BaseViewController, watsonSTTDelegate, watsonTTSDelega
     func setTitle()
     {
         self.titleLabel.text = ThemeManager.sharedInstance.title
+    }
+    
+    func setLogo()
+    {
+        self.logoImageView.image = ThemeManager.sharedInstance.logo
     }
 }

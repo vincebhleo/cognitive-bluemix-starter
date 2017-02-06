@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5203AD281E32368D00A57963 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5203AD271E32368D00A57963 /* SettingsViewController.swift */; };
 		520669641E2E19700013D5C5 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520669631E2E19700013D5C5 /* ThemeManager.swift */; };
 		520669661E2E1FF90013D5C5 /* HexColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520669651E2E1FF90013D5C5 /* HexColor.swift */; };
 		520669691E2E3EF60013D5C5 /* listening_sound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 520669681E2E3EF60013D5C5 /* listening_sound.mp3 */; };
@@ -20,7 +21,7 @@
 		524062001DD9BD7700D13B36 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 524061FE1DD9BD7700D13B36 /* Main.storyboard */; };
 		524062031DD9BD8200D13B36 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 524062011DD9BD8200D13B36 /* LaunchScreen.storyboard */; };
 		524062071DD9C8C200D13B36 /* SettingsUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524062061DD9C8C200D13B36 /* SettingsUtils.swift */; };
-		5240620C1DD9CA9E00D13B36 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5240620B1DD9CA9E00D13B36 /* Settings.bundle */; };
+		5260881D1E3872210021BF48 /* SettingsRootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5260881C1E3872200021BF48 /* SettingsRootViewController.swift */; };
 		52ACEC491DD3240300DCBD7B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52ACEC481DD3240300DCBD7B /* AppDelegate.swift */; };
 		52ACEC501DD3240400DCBD7B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52ACEC4F1DD3240400DCBD7B /* Assets.xcassets */; };
 		52ACEC601DD3293600DCBD7B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52ACEC5F1DD3293600DCBD7B /* Constants.swift */; };
@@ -57,6 +58,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5203AD271E32368D00A57963 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		520669631E2E19700013D5C5 /* ThemeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		520669651E2E1FF90013D5C5 /* HexColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HexColor.swift; sourceTree = "<group>"; };
 		520669681E2E3EF60013D5C5 /* listening_sound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = listening_sound.mp3; sourceTree = "<group>"; };
@@ -70,7 +72,7 @@
 		524061FF1DD9BD7700D13B36 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		524062021DD9BD8200D13B36 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		524062061DD9C8C200D13B36 /* SettingsUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsUtils.swift; sourceTree = "<group>"; };
-		5240620B1DD9CA9E00D13B36 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		5260881C1E3872200021BF48 /* SettingsRootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsRootViewController.swift; sourceTree = "<group>"; };
 		52ACEC451DD3240300DCBD7B /* Natural Language Interface.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Natural Language Interface.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		52ACEC481DD3240300DCBD7B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		52ACEC4F1DD3240400DCBD7B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -147,7 +149,6 @@
 				52ACEC481DD3240300DCBD7B /* AppDelegate.swift */,
 				52ACEC4F1DD3240400DCBD7B /* Assets.xcassets */,
 				52ACEC541DD3240400DCBD7B /* Info.plist */,
-				5240620B1DD9CA9E00D13B36 /* Settings.bundle */,
 			);
 			path = "Natural Language Interface";
 			sourceTree = "<group>";
@@ -167,6 +168,8 @@
 			children = (
 				52C578551DD5C92100D3BCF3 /* MainViewController.swift */,
 				524061F71DD9909200D13B36 /* BaseViewController.swift */,
+				5203AD271E32368D00A57963 /* SettingsViewController.swift */,
+				5260881C1E3872200021BF48 /* SettingsRootViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -263,7 +266,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5240620C1DD9CA9E00D13B36 /* Settings.bundle in Resources */,
 				524062001DD9BD7700D13B36 /* Main.storyboard in Resources */,
 				520669691E2E3EF60013D5C5 /* listening_sound.mp3 in Resources */,
 				524062031DD9BD8200D13B36 /* LaunchScreen.storyboard in Resources */,
@@ -280,6 +282,7 @@
 			files = (
 				52ACEC621DD3392300DCBD7B /* WatsonSTTManager.swift in Sources */,
 				52099ED71DE2EBF200B9B701 /* ChatBubble.swift in Sources */,
+				5260881D1E3872210021BF48 /* SettingsRootViewController.swift in Sources */,
 				520669641E2E19700013D5C5 /* ThemeManager.swift in Sources */,
 				520AE56B1DD5BC9900B37046 /* WatsonTTSManager.swift in Sources */,
 				52C578541DD5C69200D3BCF3 /* MediaUtils.swift in Sources */,
@@ -290,6 +293,7 @@
 				52C578521DD5C52D00D3BCF3 /* AudioPlayManager.swift in Sources */,
 				524061F81DD9909200D13B36 /* BaseViewController.swift in Sources */,
 				524062071DD9C8C200D13B36 /* SettingsUtils.swift in Sources */,
+				5203AD281E32368D00A57963 /* SettingsViewController.swift in Sources */,
 				524061F61DD97F8100D13B36 /* CommonUtilityManager.swift in Sources */,
 				520669661E2E1FF90013D5C5 /* HexColor.swift in Sources */,
 				52ACEC601DD3293600DCBD7B /* Constants.swift in Sources */,

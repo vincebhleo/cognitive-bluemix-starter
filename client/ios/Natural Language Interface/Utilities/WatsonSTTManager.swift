@@ -123,7 +123,7 @@ class WatsonSTTManager: NSObject
     func readCustomSTT()
     {
         let prefs = UserDefaults.standard
-        if prefs.string(forKey: Constants.watsonSTTSettingKeys.customSttPreference) == "On" {
+        if prefs.bool(forKey: Constants.watsonSTTSettingKeys.customSttPreference) == true {
             print("Custom STT On")
             useCustomSTT = true
             customizationID = prefs.string(forKey: Constants.watsonSTTSettingKeys.customizationId)
@@ -132,10 +132,15 @@ class WatsonSTTManager: NSObject
             {
                 self.isWatsonSTTCustomConfigIncomplete = true
             }
+            else
+            {
+                self.isWatsonSTTCustomConfigIncomplete = false
+            }
             
         } else {
             print("Custom STT Off")
             useCustomSTT = false
+            self.isWatsonSTTCustomConfigIncomplete = false
         }
     }
     
@@ -148,6 +153,10 @@ class WatsonSTTManager: NSObject
         if(username == "" || password == "")
         {
             self.isWatsonSTTConfigIncomplete = true
+        }
+        else
+        {
+            self.isWatsonSTTConfigIncomplete = false
         }
     }
 }

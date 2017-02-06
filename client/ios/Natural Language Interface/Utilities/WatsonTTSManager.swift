@@ -56,6 +56,10 @@ class WatsonTTSManager: NSObject
         {
             self.isWatsonTTSConfigIncomplete = true
         }
+        else
+        {
+            self.isWatsonTTSConfigIncomplete = false
+        }
     }
 }
 

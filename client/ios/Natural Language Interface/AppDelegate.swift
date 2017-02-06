@@ -17,9 +17,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        SettingsUtils.registerDefaultsForUserDefaults()
+        // Uncomment this line of code, if you wish to read from app settings
+        //SettingsUtils.registerDefaultsForUserDefaults()
+        SettingsUtils.initSettings()
         
-        SettingsUtils.putVersionAndBuildnumInSettings()
         
         return true
     }

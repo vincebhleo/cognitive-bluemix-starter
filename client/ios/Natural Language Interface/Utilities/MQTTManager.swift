@@ -101,6 +101,10 @@ class MQTTManager: NSObject, MQTTSessionDelegate {
         {
             self.isMQTTConfigIncomplete = true
         }
+        else
+        {
+            self.isMQTTConfigIncomplete = false
+        }
     }
     
     // MARK: - MQTTSessionDelegate methods

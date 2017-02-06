@@ -30,12 +30,18 @@ struct Constants
     {
         static let serverDown:String = "Server is down, please try again later"
         static let somethingWentWrong:String = "Something went wrong"
-        static let configIncomplete:String = "Please make sure you have set all the configurations in Settings App required to use "
+        static let configIncomplete:String = "Please make sure you have set all the configurations in Settings required to use "
         static let watsonSTTConfigIncomplete = "Watson STT"
+        static let watsonSTTCustomConfigIncomplete = "Watson Custom STT"
         static let watsonTTSConfigIncomplete = "Watson TTS"
         static let mqttConfigIncomplete = "Watson IOT"
         static let mesgSeperatorComma = " , "
         static let mesgSeperatorAnd = " & "
+    }
+    
+    struct messages
+    {
+        static let settingsSaved:String = "Settings saved successfully"
     }
     
     struct conversationImageNames
@@ -48,6 +54,20 @@ struct Constants
     {
         static let speakerIcon = "speakerIcon"
         static let speakerIconHighlighted = "speakerIconHighlighted"
+    }
+    
+    struct logoImageNames
+    {
+        static let logoPng = "logo.png"
+        static let logo = "logo"
+    }
+    
+    struct logoImageSize
+    {
+        static let iPhoneWidth:CGFloat = 30
+        static let iPhoneHeight:CGFloat = 30
+        static let iPadWidth:CGFloat = 50
+        static let iPadHeight:CGFloat = 50
     }
     
     struct mqttConfigSettings
@@ -96,6 +116,12 @@ struct Constants
     {
         static let hexColorCode:String = "theme_hex_color_code"
         static let title:String = "app_title"
+    }
+    
+    struct buildSettingKeys
+    {
+        static let version:String = "version"
+        static let buildNo:String = "build_no"
     }
     
     struct chatBubbleDimensions

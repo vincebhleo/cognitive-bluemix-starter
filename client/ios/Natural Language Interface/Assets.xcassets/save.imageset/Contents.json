@@ -2,7 +2,7 @@
   "images" : [
     {
       "idiom" : "iphone",
-      "filename" : "IBMLogo-1.png",
+      "filename" : "save.png",
       "scale" : "1x"
     },
     {
@@ -15,7 +15,7 @@
     },
     {
       "idiom" : "ipad",
-      "filename" : "IBMLogo.png",
+      "filename" : "save-1.png",
       "scale" : "1x"
     },
     {
