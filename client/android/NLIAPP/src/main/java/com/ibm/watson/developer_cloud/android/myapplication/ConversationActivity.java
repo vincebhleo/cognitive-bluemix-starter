@@ -455,6 +455,7 @@ public class ConversationActivity extends AppCompatActivity {
         String username =pref.getString("STTUSERNM", null);
         String password =pref.getString("STTPASS", null);
         service.setUsernameAndPassword(username, password);
+        service.getCustomization(pref.getString("customstt",null));
         service.setEndPoint("https://stream.watsonplatform.net/speech-to-text/api");
         return service;
     }

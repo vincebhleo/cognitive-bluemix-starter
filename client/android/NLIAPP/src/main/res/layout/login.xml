@@ -15,9 +15,7 @@
 *    Mike Robertson - initial contribution
 *******************************************************************************/
 -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -59,26 +57,73 @@
             android:textStyle="bold" />
 
     </RelativeLayout>
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+
+        tools:context="com.ibm.iot.android.iotstarter.fragments.LoginPagerFragment">
+
+    <TextView
+        android:text="WATSON IOT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="center_vertical"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+    <TextView
+        android:text="ORG ID"
+        android:layout_width="90dp"
+        android:layout_marginLeft="15dp"
+        android:textSize="17sp"
+        android:textColor="@color/black"
+        android:layout_gravity="center_vertical"
+        android:layout_height="wrap_content" />
     <EditText
         android:id="@+id/organizationValue"
         style="@style/MyActionBarTitleText"
-        android:layout_width="175dp"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
         android:hint="@string/organization_value"
         android:inputType="textNoSuggestions"
         android:paddingBottom="@dimen/activity_setting_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_setting_margin"
+        android:layout_marginRight="10dp"
         android:textColor="@color/black" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
+        <TextView
+            android:text="Device ID"
+            android:layout_width="90dp"
+            android:layout_marginLeft="15dp"
+            android:textSize="17sp"
+            android:textColor="@color/black"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content" />
     <EditText
         android:id="@+id/deviceIDValue"
         style="@style/MyActionBarTitleText"
-        android:layout_width="175dp"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
@@ -88,12 +133,26 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_setting_margin"
+        android:layout_marginRight="10dp"
         android:textColor="@color/black" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
+        <TextView
+            android:text="Auth Token"
+            android:layout_width="90dp"
+            android:layout_marginLeft="15dp"
+            android:textSize="17sp"
+            android:textColor="@color/black"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content" />
     <EditText
         android:id="@+id/authTokenValue"
         style="@style/MyActionBarTitleText"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
@@ -103,8 +162,9 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_setting_margin"
+        android:layout_marginRight="10dp"
         android:textColor="@color/black" />
-
+    </LinearLayout>
     <Button
         android:id="@+id/showTokenButton"
         style="@style/SmallButton"
@@ -122,10 +182,32 @@
     <!--android:onClick="onCheckboxClicked"/-->
 
 
+    <TextView
+        android:text="WATSON STT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="center_vertical"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:text="Username"
+            android:layout_width="90dp"
+            android:layout_marginLeft="15dp"
+            android:textSize="17sp"
+            android:textColor="@color/black"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content" />
     <EditText
         android:id="@+id/sttusername"
         style="@style/MyActionBarTitleText"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
@@ -135,12 +217,26 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_setting_margin"
+        android:layout_marginRight="10dp"
         android:textColor="@color/black" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
+        <TextView
+            android:text="Password"
+            android:layout_width="90dp"
+            android:layout_marginLeft="15dp"
+            android:textSize="17sp"
+            android:textColor="@color/black"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content" />
     <EditText
         android:id="@+id/sttpassword"
         style="@style/MyActionBarTitleText"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
@@ -150,18 +246,74 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_setting_margin"
+        android:layout_marginRight="10dp"
         android:textColor="@color/black" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/showSTTpsd"
         style="@style/SmallButton"
         android:layout_gravity="center|bottom"
         android:text="@string/showSTTpsw_button" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
+        <TextView
+            android:text="Custom Stt"
+            android:layout_width="90dp"
+            android:layout_marginLeft="15dp"
+            android:textSize="17sp"
+            android:textColor="@color/black"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content" />
+
+        <EditText
+        style="@style/MyActionBarTitleText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingTop="@dimen/activity_setting_margin"
+        android:paddingBottom="@dimen/activity_setting_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:hint="Custom Stt Credentials"
+        android:textColor="@color/black"
+        android:inputType="textNoSuggestions"
+            android:layout_marginRight="10dp"
+        android:id="@+id/customstt"
+        />
+    </LinearLayout>
+
+    <TextView
+        android:text="WATSON TTS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="center_vertical"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:text="Username"
+            android:layout_width="90dp"
+            android:layout_marginLeft="15dp"
+            android:textSize="17sp"
+            android:textColor="@color/black"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content" />
     <EditText
         android:id="@+id/ttsusername"
         style="@style/MyActionBarTitleText"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
@@ -171,12 +323,26 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_setting_margin"
+        android:layout_marginRight="10dp"
         android:textColor="@color/black" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
+        <TextView
+            android:text="Password"
+            android:layout_width="90dp"
+            android:layout_marginLeft="15dp"
+            android:textSize="17sp"
+            android:textColor="@color/black"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content" />
     <EditText
         android:id="@+id/ttspassword"
         style="@style/MyActionBarTitleText"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
@@ -186,16 +352,40 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_setting_margin"
+        android:layout_marginRight="10dp"
         android:textColor="@color/black" />
-
+    </LinearLayout>
     <Button
         android:id="@+id/showTTSpsd"
         style="@style/SmallButton"
         android:layout_gravity="center|bottom"
         android:text="@string/showTTSpsw_button" />
+
+    <TextView
+        android:text="THEME"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="center_vertical"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:text="Hex Color"
+            android:layout_width="90dp"
+            android:layout_marginLeft="15dp"
+            android:textSize="17sp"
+            android:textColor="@color/black"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content" />
     <EditText
         style="@style/MyActionBarTitleText"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
@@ -206,11 +396,26 @@
         android:hint="Hex Color"
         android:textColor="@color/black"
         android:inputType="textNoSuggestions"
+        android:layout_marginRight="10dp"
         android:id="@+id/hexcolor"
         />
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:text="Title"
+            android:layout_width="90dp"
+            android:layout_marginLeft="15dp"
+            android:textSize="17sp"
+            android:textColor="@color/black"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content" />
     <EditText
         style="@style/MyActionBarTitleText"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
@@ -222,11 +427,27 @@
         android:textColor="@color/black"
         android:inputType="textNoSuggestions"
         android:id="@+id/title_app"
+        android:layout_marginRight="10dp"
         />
+        </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:text="Logo"
+            android:layout_width="90dp"
+            android:layout_marginLeft="15dp"
+            android:textSize="17sp"
+            android:textColor="@color/black"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content" />
     <ImageButton
         style="@style/MyActionBarTitleText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="70dp"
         android:layout_gravity="center"
         android:gravity="center"
         android:paddingTop="@dimen/activity_setting_margin"
@@ -237,6 +458,7 @@
         android:id="@+id/logobutton"
         android:src="@drawable/logo"
         />
+        </LinearLayout>
     <TextView
         android:id="@+id/isConnected"
         style="@style/MyActionBarTitleText"
@@ -262,6 +484,7 @@
         android:layout_gravity="center|bottom"
         android:text="@string/activate_button"
         android:textColor="@color/white" />
+    </LinearLayout>
+    </ScrollView>
 </LinearLayout>
 
-</ScrollView>

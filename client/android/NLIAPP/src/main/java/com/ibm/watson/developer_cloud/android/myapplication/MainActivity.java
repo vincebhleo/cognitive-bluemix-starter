@@ -66,7 +66,7 @@ import utils.MyIoTActionListener;
 
 public class MainActivity extends Activity {
     private final String TAG = "MainActivity";
-    EditText mSTTUSR, mSTTPASS, mTTSUSR, mTTSPASS,hexColor,titleApp;
+    EditText mSTTUSR, mSTTPASS, mTTSUSR, mTTSPASS,hexColor,titleApp,customStt;
     private IoTStarterApplication app;
     private BroadcastReceiver broadcastReceiver;
     AppInfo mAPPinfo = AppInfo.getInstance();
@@ -76,7 +76,7 @@ public class MainActivity extends Activity {
     SharedPreferences.Editor editor;
     String morganization, mDeviceid, mAuthToken;
     ProgressDialog pd;
-    String mSTTunm,mSTTpwd,mTTSunm,mTTSpwd,hexcolor,title;
+    String mSTTunm,mSTTpwd,mTTSunm,mTTSpwd,hexcolor,title,customstt;
     ImageButton imageButton;
     String logouri;
     private static final int SELECT_PHOTO = 100;
@@ -84,7 +84,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-        System.out.println("123456");
+        //System.out.println("123456");
         app = (IoTStarterApplication) this.getApplication();
         app.setCurrentRunningActivity(TAG);
         pd = new ProgressDialog(this);
@@ -102,7 +102,7 @@ public class MainActivity extends Activity {
             hexcolor = pref.getString("hexcolor", null);
             title = pref.getString("title", null);
             logouri=pref.getString("logouri", null);
-
+            customstt=pref.getString("customstt",null);
 
         if(hexcolor==null || hexcolor.isEmpty())
         {
@@ -149,9 +149,9 @@ public class MainActivity extends Activity {
         relativeLayout.setBackgroundColor(Color.parseColor(hexcolor));
 
         /**
-         * checking the credentials if saved directly move into conversation screen.
+         * checking the credentials if saved directly move into chat page.
          */
-
+        //System.out.println("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW");
         if (morganization != null && !morganization.isEmpty() && mDeviceid != null && !mDeviceid.isEmpty() && mAuthToken != null && !mAuthToken.isEmpty()) {
             pd.setMessage("Connecting to conversation ....");
             pd.show();
@@ -169,6 +169,7 @@ public class MainActivity extends Activity {
 
         public void onClick(View v)
         {
+
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
             photoPickerIntent.setType("image/*");
             startActivityForResult(photoPickerIntent, SELECT_PHOTO);
@@ -191,8 +192,7 @@ public class MainActivity extends Activity {
                     Bitmap yourSelectedImage = BitmapFactory.decodeStream(imageStream);
                     ImageButton temp=(ImageButton)findViewById(R.id.logobutton);
                     temp.setImageBitmap(yourSelectedImage);
-                    Toast.makeText(app.getBaseContext(), selectedImage.toString(),
-                            Toast.LENGTH_LONG).show();
+
                     app.setmlogoUri(selectedImage.toString());
                     editor.putString("logouri",selectedImage.toString());
                 }
@@ -281,6 +281,9 @@ public class MainActivity extends Activity {
         if (app.getmTitle() != null) {
             ((EditText) findViewById(R.id.title_app)).setText(app.getmTitle());
         }
+        if (app.getmCustomStt() != null) {
+            ((EditText) findViewById(R.id.customstt)).setText(app.getmCustomStt());
+        }
 
 
         // Set 'Connected to IoT' to Yes if MQTT client is connected. Leave as No otherwise.
@@ -301,7 +304,7 @@ public class MainActivity extends Activity {
         mTTSPASS = (EditText) findViewById(R.id.ttspassword);
         hexColor = (EditText) findViewById(R.id.hexcolor);
         titleApp=(EditText)findViewById(R.id.title_app);
-
+        customStt=(EditText)findViewById(R.id.customstt);
 
 
         Button showTTSpswd = (Button) findViewById(R.id.showTTSpsd);
@@ -340,7 +343,7 @@ public class MainActivity extends Activity {
                     app.setmTTSpassword(mTTSPASS.getText().toString());
                     app.setmHexcolor(hexColor.getText().toString());
                     app.setmTitle(titleApp.getText().toString());
-
+                    app.setmCustomStt(customStt.getText().toString());
                     handleActivate();
                 }
                 else {
@@ -382,6 +385,7 @@ public class MainActivity extends Activity {
         editor.putString("TTSPSS", ((EditText) findViewById(R.id.ttspassword)).getText().toString());
         editor.putString("hexcolor", ((EditText) findViewById(R.id.hexcolor)).getText().toString());
         editor.putString("title", ((EditText) findViewById(R.id.title_app)).getText().toString());
+        editor.putString("customstt", ((EditText) findViewById(R.id.customstt)).getText().toString());
 
 
         editor.commit();
@@ -451,6 +455,7 @@ public class MainActivity extends Activity {
         app.setmTTSpassword(mTTSpwd);
         app.setmHexcolor(hexcolor);
         app.setmTitle(title);
+        app.setmCustomStt(customstt);
 
         IoTClient iotClient = IoTClient.getInstance(this, app.getOrganization(), app.getDeviceId(), app.getDeviceType(), app.getAuthToken());
         activateButton.setEnabled(false);

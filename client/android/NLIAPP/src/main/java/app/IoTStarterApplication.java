@@ -63,6 +63,7 @@ public class IoTStarterApplication extends Application {
     private String hexcolor;
     private String titleApp;
     private String logoUri;
+    private String customstt;
 
     private Constants.ConnectionType connectionType;
     private boolean useSSL = false;
@@ -345,6 +346,13 @@ public class IoTStarterApplication extends Application {
 
     public void setmHexcolor(String hexcolor) {
         this.hexcolor = hexcolor;
+    }
+    public String getmCustomStt() {
+        return customstt;
+    }
+
+    public void setmCustomStt(String customstt) {
+        this.customstt = customstt;
     }
     public String getmTitle() {
         return titleApp;
